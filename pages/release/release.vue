@@ -11,6 +11,10 @@
 				<radio value="private" color="#3F536E" /><label>藏在心里</label>
 			</radio-group>
 			<button id="submit" type="primary" plain="true" form-type="submit" v-text="submitText" :disabled="submitText!=='Submit'"></button>
+			<van-button>123</van-button>
+			<van-button type="primary">主要按钮</van-button>
+			<van-button type="info">信息按钮</van-button>
+			<van-button type="default">默认按钮</van-button>
 		</form>
 	</view>
 </template>
