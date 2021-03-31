@@ -1,4 +1,4 @@
 node_modules/
 .project
-unpackage/
+unpackage/*
 .DS_Store
