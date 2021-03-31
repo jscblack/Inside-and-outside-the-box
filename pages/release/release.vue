@@ -7,9 +7,8 @@
 				<image v-for="item in imageSuccess" :src="item"></image>
 			</view>
 			<radio-group @change="radioChange">
-				<radio value="public" checked=true color="#3F536E" /><label style="margin-right: 20upx;">公开</label>
-				<radio value="anonymous" color="#3F536E" /><label style="margin-right: 20upx;">匿名</label>
-				<radio value="private" color="#3F536E" /><label>私有</label>
+				<radio value="public" checked=true color="#3F536E" /><label style="margin-right: 20upx;">面向大海</label>
+				<radio value="private" color="#3F536E" /><label>藏在心里</label>
 			</radio-group>
 			<button id="submit" type="primary" plain="true" form-type="submit" v-text="submitText" :disabled="submitText!=='Submit'"></button>
 		</form>
@@ -157,10 +156,8 @@
 				var that=this;
 				if(evt.target.value==='public')
 					that.$data.mininote_type=0;
-				else if(evt.target.value==='anonymous')
-					that.$data.mininote_type=1;
 				else
-					that.$data.mininote_type=2;
+					that.$data.mininote_type=1;
 			}
 		}
 	}
