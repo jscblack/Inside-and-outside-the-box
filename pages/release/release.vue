@@ -1,20 +1,13 @@
 <template>
 	<view id="window">
 		<form @submit="onSubmit">
-			<textarea id="context" name="context" v-model="context"></textarea>
-			<image id="camera" src="/static/image/camera.png" @click="onClickImage"></image>
-			<view id="preview">
-				<image v-for="item in imageSuccess" :src="item"></image>
-			</view>
+			<textarea id="context" name="context" v-model="context" maxlength="2000"></textarea>
+			<van-uploader image-fit="aspectFit" :file-list="image" multiple=true @after-read="afterRead" @delete="onDelete" preview-size="100px" max-count="9" upload-text="添加图片" />
 			<radio-group @change="radioChange">
-				<radio value="public" checked=true color="#3F536E" /><label style="margin-right: 20upx;">面向大海</label>
+				<radio value="public" checked=true color="#3F536E" /><label style="margin-right: 20upx;">扔进纸箱</label>
 				<radio value="private" color="#3F536E" /><label>藏在心里</label>
 			</radio-group>
 			<button id="submit" type="primary" plain="true" form-type="submit" v-text="submitText" :disabled="submitText!=='Submit'"></button>
-			<van-button>123</van-button>
-			<van-button type="primary">主要按钮</van-button>
-			<van-button type="info">信息按钮</van-button>
-			<van-button type="default">默认按钮</van-button>
 		</form>
 	</view>
 </template>
@@ -25,139 +18,137 @@
 			return {
 				context:'',
 				image:[],
-				imageSuccess:[],
-				imageId:[],
 				mininote_type:0,
 				submitText:'Submit'
 			}
 		},
 		onLoad() {
-			
 		},
 		methods: {
-			//Submit
-			onSubmit(){			
-				var that=this;
-				if(that.$data.context.length===0)
-				{
+			//点击Submit
+			onSubmit(){
+				const that=this;
+				if(that['context'].length==0){
 					uni.showToast({
-					    title: '先在纸条上写点东西趴',
-						duration: 2000,
-						icon:"none"
+						title:'怎么能没有文字呢',
+						icon:'none',
+						duration:2000
 					});
 					return ;
 				}
-				that.$data.submitText='努力上传中...';
-				var pic_num=that.$data.imageId.length;
-				var pic_fileID=(that.$data.imageId.length>0)?that.$data.imageId:null;
-				console.log(pic_num);
-				console.log(pic_fileID);
+				for(const index in that['image']){
+					if(that['image'][index].fileID==null){
+						if(that['image'][index].status=='failed'){
+							uni.showToast({
+								title:'糟糕，有图片上传失败了，先把它给删掉趴',
+								icon:'none',
+								duration:2000
+							});
+						}else{
+							uni.showToast({
+								title:'别急嘛，图片还没上传完呐',
+								icon:'none',
+								duration:2000
+							});
+						}
+						return ;
+					}
+				}
+				that['submitText']='努力上传中呐';
+				const picNum=that['image'].length;
+				let picID=[];
+				for(const index in that['image']){
+					picID.push(that['image'][index].fileID);
+				}
+				console.log(picNum);
+				console.log(picID);
+				console.log(that['context']);
+				console.log(that['mininote_type']);
 				wx.cloud.callFunction({
 					name:'upload_content',
 					data:{
-						pic_num:pic_num,
-						pic_content:pic_fileID,
-						word_content:that.$data.context,
+						pic_num:picNum,
+						pic_content:picID,
+						word_content:that['context'],
 						has_location:false,
 						location:null,
-						mininote_type:that.$data.mininote_type
+						mininote_type:that['mininote_type']
 					},
 					success:function(res){
+						that['submitText']='Submit';
 						console.log(res);
-						var code=res.result.errCode;
-						if(code==23001){
+						const errCode=res.result.errCode;
+						if(errCode==87014){
 							uni.showToast({
-								title:'系统错误，错误代码23001',
+								title:'文字或图片有违规哦！',
 								icon:'none',
-								duration:1500
+								duration:2000
 							});
-						}else if(code==87014){
+							return ;
+						}else if(errCode!=23000){
 							uni.showToast({
-								title:'图片或文字不能有敏感内容哦',
+								title:'系统错误，错误代码'+errCode,
 								icon:'none',
-								duration:1500
+								duration:2000
 							});
-						}else if(code!=23000){
-							uni.showToast({
-								title:'系统错误，错误代码23002',
-								icon:'none',
-								duration:1500
-							});
-						}else
-							uni.navigateBack();
-						that.$data.submitText='Submit';
+							return ;
+						}
+						uni.navigateBack();
 					},
 					fail:function(err){
+						that['submitText']='Submit';
+						console.log(err);
 						uni.showToast({
 							title:'系统错误，错误代码23003',
 							icon:'none',
-							duration:1500
+							duration:2000
 						});
-						that.$data.submitText='Submit';
 					}
 				});
+			},
+			//读取到了临时地址并上传到数据库
+			afterRead(event){
+				const that=this;
+				for(const filetmp of event.detail.file){
+					filetmp.status='uploading';
+					filetmp.url=filetmp.path;
+					filetmp.fileID=null;
+					that['image'].push(filetmp);
+				}
+				for(const index in that['image']){
+					if(that['image'][index].status!='uploading')
+						continue;
+					wx.cloud.uploadFile({
+						cloudPath: that.$options.methods.getRandomFileName(that['image'][index].url),
+						filePath: that['image'][index].url,
+						success: function(res){
+							that['image'][index].fileID=res.fileID;
+							that['image'][index].status='done';
+						},
+						fail: function(err){
+							that['image'][index].status='failed';
+						}
+					});
+				}
+			},
+			//点击删除
+			onDelete(event){
+				const index=event.detail.index;
+				this[`image`].splice(index, 1);
 			},
 			// 随机图片名
 			getRandomFileName(fileName){
-				var index= fileName.lastIndexOf(".");
-				var type = fileName.substr(index+1);
-				var date = new Date();
-				var name=date.getTime()+Math.random().toString(36).substr(2);
+				const index= fileName.lastIndexOf(".");
+				const type = fileName.substr(index+1);
+				if(type!='jpg'&&type!='png'&&type!='JPG'&&type!='PNG')
+					return null;
+				const date = new Date();
+				const name=date.getTime()+Math.random().toString(36).substr(2);
 				return name+'.'+type;
-			},
-			//上传
-			uploadAllFile(now,that){
-				if(now==that.$data.image.length){
-					var title;
-					if(that.$data.imageId.length==0)
-						title='上传失败'
-					else
-						title='上传成功'+that.$data.imageId.length+'张图片!';
-					uni.showToast({
-						title:title,
-						icon:'none',
-						duration:1500
-					})
-					that.$data.submitText='Submit';
-					return ;
-				}
-				var randomName=that.$options.methods.getRandomFileName(that.$data.image[now]);
-				wx.cloud.uploadFile({
-					cloudPath: randomName,
-					filePath: that.$data.image[now],
-					success: function(res){
-						that.$data.imageId.push(res.fileID);
-						that.$data.imageSuccess.push(that.$data.image[now]);
-						console.log('success');
-					},
-					fail: function(err){
-						console.log(err);
-						console:error;
-					},
-					complete:function(com){
-						that.$options.methods.uploadAllFile(now+1,that);
-					}
-				});
-			},
-			// 选择图片
-			onClickImage(){
-				var that=this;
-				that.$data.imageId=[];
-				that.$data.imageSuccess=[];
-				that.$data.image=[];
-				uni.chooseImage({
-					count: 9,
-					success: function (res) {
-						that.$data.image=res.tempFilePaths;
-						console.log(that.$data.image);
-						that.$data.submitText='图片上传中...';
-						that.$options.methods.uploadAllFile(0,that);
-					}
-				});
 			},
 			// 公开 匿名 私有
 			radioChange(evt){
-				var that=this;
+				const that=this;
 				if(evt.target.value==='public')
 					that.$data.mininote_type=0;
 				else
@@ -179,17 +170,8 @@
 	#context{
 		text-align: left;
 		width: 100%;
-		overflow: auto;
-		margin-bottom: 10upx;
-	}
-	#camera{
-		width: 60upx;
-		height: 60upx;
-	}
-	#preview image{
-		width: 210upx;
-		height: 210upx;
-		margin: 10upx 10upx;
+		overflow:auto;
+		margin-bottom: 30upx;
 	}
 	#submit{
 		margin: 30upx auto;

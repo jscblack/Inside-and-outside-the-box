@@ -9,7 +9,7 @@
 		{
 			"path": "pages/release/release",
 			"style": {
-				"navigationBarTitleText": "塞纸条"
+				"navigationBarTitleText": "写点什么"
 			}
 		}
 	],
@@ -67,7 +67,8 @@
 			"van-rate": "/wxcomponents/vant/rate/index",
 			"van-collapse": "/wxcomponents/vant/collapse/index",
 			"van-collapse-item": "/wxcomponents/vant/collapse-item/index",
-			"van-picker": "/wxcomponents/vant/picker/index"
+			"van-picker": "/wxcomponents/vant/picker/index",
+			"van-uploader": "/wxcomponents/vant/uploader/index"
 		}
 	}
 }
