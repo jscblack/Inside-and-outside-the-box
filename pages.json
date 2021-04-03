@@ -11,8 +11,31 @@
 			"style": {
 				"navigationBarTitleText": "写点什么"
 			}
+		},
+		{
+			"path": "pages/me/me",
+			"style": {
+				"navigationBarTitleText": "小窝"
+			}
 		}
 	],
+	"tabBar": {
+	    "color": "#7A7E83",
+	    "selectedColor": "#000000",
+	    "borderStyle": "white",
+	    "backgroundColor": "#FFFFFF",
+	    "list": [{
+	        "pagePath": "pages/index/index",
+	        // "iconPath": "static/image/icon_component.png",
+	        // "selectedIconPath": "static/image/icon_component_HL.png",
+	        "text": "世界"
+	    }, {
+	        "pagePath": "pages/me/me",
+	        // "iconPath": "static/image/icon_API.png",
+	        // "selectedIconPath": "static/image/icon_API_HL.png",
+	        "text": "小窝"
+	    }]
+	},
 	"globalStyle": {
 		"navigationBarTextStyle":"black",
 		"navigationBarTitleText": "箱里箱外",

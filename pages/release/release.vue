@@ -160,6 +160,8 @@
 <style>
 	page{
 		background-color: #FFFFFF;
+		height: 100%;
+		width: 100%;
 	}
 </style>
 <style scoped>
