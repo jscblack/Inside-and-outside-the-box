@@ -20,4 +20,9 @@
 
 <style>
 	/*每个页面公共css */
+	page{
+		background-color: #FFFFFF;
+		height: 100%;
+		width: 100%;
+	}
 </style>

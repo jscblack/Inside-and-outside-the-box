@@ -76,7 +76,6 @@
 					},
 					success:function(res){
 						that['submitText']='Submit';
-						console.log(res);
 						const errCode=res.result.errCode;
 						if(errCode==87014){
 							uni.showToast({
@@ -97,7 +96,6 @@
 					},
 					fail:function(err){
 						that['submitText']='Submit';
-						console.log(err);
 						uni.showToast({
 							title:'系统错误，错误代码23003',
 							icon:'none',
@@ -158,11 +156,7 @@
 	}
 </script>
 <style>
-	page{
-		background-color: #FFFFFF;
-		height: 100%;
-		width: 100%;
-	}
+
 </style>
 <style scoped>
 	#window{

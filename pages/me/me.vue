@@ -19,9 +19,7 @@
 	}
 </script>
 <style>
-	page{
-		background-color: #FFFFFF;
-	}
+
 </style>
 <style scoped>
 
