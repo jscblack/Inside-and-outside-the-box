@@ -44,7 +44,7 @@
 	.main{
 		width: 400upx;
 		height: 100upx;
-		position: absolute;
+		position: fixed;
 		left: 50%;
 		margin-left: -200upx;
 		top: 85%;
