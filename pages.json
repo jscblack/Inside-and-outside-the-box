@@ -20,19 +20,12 @@
 		}
 	],
 	"tabBar": {
-	    "color": "#7A7E83",
-	    "selectedColor": "#000000",
-	    "borderStyle": "white",
-	    "backgroundColor": "#FFFFFF",
+		"custom": true,
 	    "list": [{
 	        "pagePath": "pages/index/index",
-	        // "iconPath": "static/image/icon_component.png",
-	        // "selectedIconPath": "static/image/icon_component_HL.png",
 	        "text": "世界"
 	    }, {
 	        "pagePath": "pages/me/me",
-	        // "iconPath": "static/image/icon_API.png",
-	        // "selectedIconPath": "static/image/icon_API_HL.png",
 	        "text": "小窝"
 	    }]
 	},

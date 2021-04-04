@@ -2,39 +2,55 @@
 	<view>
 		<image :class="boxClass"src="/static/image/box.png" @click="onClickBox"></image>
 		<image id="penImgae"src="/static/image/pen.png" @click="onClickRelease"></image>
+		<my-tabbar now=0></my-tabbar>
 	</view>
 </template>
 
 <script>
+	import myTabbar from '../../components/myTabbar.vue'
 	export default {
+		components: {
+			myTabbar
+		},
 		data() {
 			return {
-				boxClass:'box'
+				boxClass:'box',
 			}
 		},
 		onLoad() {
 
 		},
 		methods: {
-			//要箱子
+			//摇箱子
 			onClickBox(){
 				const that=this;
-				this['boxClass']='boxShaking';
+				if(that['boxClass']=='boxShaking')
+					return ;
+				that['boxClass']='boxShaking';
 				const srcurl="/static/music/shakeBox.mp3";
 				const innerAudioContext = wx.createInnerAudioContext();
 				innerAudioContext.autoplay = true;
-				innerAudioContext.src = srcurl;
+				innerAudioContext.src = srcurl;	
 				setTimeout(function(){ 
 					that['boxClass']='box';
-					uni.showToast({
-						title:'还没有纸条哦！',
-						icon:'none',
-						duration:1000
-					})
 				}, 1000);
+				wx.cloud.callFunction({
+					name:'pull_mininotes',
+					data:{
+					},
+					success:function(res){
+						console.log(res);
+					},
+					fail:function(err){
+						console.log(err);
+					}
+				});
 			},
 			//发布内容
 			onClickRelease(){
+				const that=this;
+				if(that['boxClass']=='boxShaking')
+					return ;
 				uni.navigateTo({
 					url:'/pages/release/release'
 				})
@@ -64,7 +80,7 @@
 		height: 500upx;
 		position: absolute;
 		left: 50%;
-		top: 50%;
+		top: 40%;
 		margin-top: -250upx;
 		margin-left: -250upx;
 	}
@@ -73,7 +89,7 @@
 		height: 500upx;
 		position: absolute;
 		left: 50%;
-		top: 50%;
+		top: 40%;
 		margin-top: -250upx;
 		margin-left: -250upx;
 		animation: shaking 0.4s linear infinite;
@@ -83,6 +99,6 @@
 		height: 100upx;
 		position: fixed;
 		left: 80%;
-		top: 80%;
+		top: 65%;
 	}
 </style>

@@ -4,8 +4,8 @@
 			<textarea id="context" name="context" v-model="context" maxlength="2000"></textarea>
 			<van-uploader image-fit="aspectFit" :file-list="image" multiple=true @after-read="afterRead" @delete="onDelete" preview-size="100px" max-count="9" upload-text="添加图片" />
 			<radio-group @change="radioChange">
-				<radio value="public" checked=true color="#3F536E" /><label style="margin-right: 20upx;">扔进纸箱</label>
-				<radio value="private" color="#3F536E" /><label>藏在心里</label>
+				<radio value="public" checked=true color="#000000" /><label style="margin-right: 20upx;">扔进纸箱</label>
+				<radio value="private" color="#000000" /><label>藏在心里</label>
 			</radio-group>
 			<button id="submit" type="primary" plain="true" form-type="submit" v-text="submitText" :disabled="submitText!=='Submit'"></button>
 		</form>
@@ -54,24 +54,18 @@
 						return ;
 					}
 				}
-				that['submitText']='努力上传中呐';
+				that['submitText']='努力上传中呐...';
 				const picNum=that['image'].length;
 				let picID=[];
 				for(const index in that['image']){
 					picID.push(that['image'][index].fileID);
 				}
-				console.log(picNum);
-				console.log(picID);
-				console.log(that['context']);
-				console.log(that['mininote_type']);
 				wx.cloud.callFunction({
 					name:'upload_content',
 					data:{
 						pic_num:picNum,
 						pic_content:picID,
 						word_content:that['context'],
-						has_location:false,
-						location:null,
 						mininote_type:that['mininote_type']
 					},
 					success:function(res){
@@ -138,8 +132,6 @@
 			getRandomFileName(fileName){
 				const index= fileName.lastIndexOf(".");
 				const type = fileName.substr(index+1);
-				if(type!='jpg'&&type!='png'&&type!='JPG'&&type!='PNG')
-					return null;
 				const date = new Date();
 				const name=date.getTime()+Math.random().toString(36).substr(2);
 				return name+'.'+type;
@@ -171,6 +163,7 @@
 	}
 	#submit{
 		margin: 30upx auto;
-		
+		color: #000000;
+		border: 2upx solid #000000;
 	}
 </style>
