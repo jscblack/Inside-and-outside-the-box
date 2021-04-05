@@ -116,6 +116,12 @@
 						success: function(res){
 							that['image'][index].fileID=res.fileID;
 							that['image'][index].status='done';
+							wx.cloud.callFunction({
+							    name:'update_record',
+							    data:{
+							        cloud_link:res.fileID
+							    }
+							 });
 						},
 						fail: function(err){
 							that['image'][index].status='failed';

@@ -15,6 +15,10 @@
 				type: Number,
 				default: -1
 			},
+			able:{
+				type:Boolean,
+				default:true
+			}
 	},
     data() {
 		return {
@@ -23,14 +27,14 @@
     },
 	methods:{
 		onClick0(){
-			if(this['now']==0)
+			if(this['now']==0||this['able']==false)
 				return ;
 			uni.switchTab({
 				url:'/pages/index/index'
 			})
 		},
 		onClick1(){
-			if(this['now']==1)
+			if(this['now']==1||this['able']==false)
 				return ;
 			uni.switchTab({
 				url:'/pages/me/me'
@@ -48,7 +52,6 @@
 		left: 50%;
 		margin-left: -200upx;
 		top: 85%;
-		z-index: 1;
 		border: 4upx solid #000000;
 		border-radius: 200upx;
 		

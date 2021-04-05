@@ -4,7 +4,8 @@
 		<view v-if="showMain" id="mainView">
 			<image :class="boxClass"src="/static/image/box.png" @click="onClickBox"></image>
 			<image id="penImgae"src="/static/image/pen.png" @click="onClickRelease"></image>
-			<my-tabbar now=0></my-tabbar>
+			<my-tabbar now=0 :able="boxClass=='box'"></my-tabbar>
+			<my-read v-if="showRead" :content="content" @close="closeRead" @onClickBox="updateContent"></my-read>
 		</view>
 	</view>
 </template>
@@ -12,17 +13,21 @@
 <script>
 	import myTabbar from '../../components/myTabbar.vue'
 	import myWelcome from '../../components/myWelcome.vue'
+	import myRead from '../../components/myRead.vue'
 	export default {
 		components: {
 			myTabbar,
-			myWelcome
+			myWelcome,
+			myRead
 		},
 		data() {
 			return {
+				showRead:false,
 				boxClass:'box',
 				welcomClass:'loadWelcome',
 				showWelcom:true,
 				showMain:false,
+				content:null
 			}
 		},
 		onLoad() {
@@ -36,10 +41,14 @@
 			},3000);
 		},
 		methods: {
+			//关闭阅读
+			closeRead(){
+				this['showRead']=false;
+			},
 			//摇箱子
 			onClickBox(){
 				const that=this;
-				if(that['boxClass']=='boxShaking')
+				if(that['boxClass']!='box')
 					return ;
 				that['boxClass']='boxShaking';
 				const srcurl="/static/music/shakeBox.mp3";
@@ -47,25 +56,34 @@
 				innerAudioContext.autoplay = true;
 				innerAudioContext.src = srcurl;	
 				setTimeout(function(){ 
+					that['showRead']=true;			
 					that['boxClass']='box';
-				}, 1000);
-				console.log('get');
-				// wx.cloud.callFunction({
-				// 	name:'pull_mininotes',
-				// 	data:{
-				// 	},
-				// 	success:function(res){
-				// 		console.log(res);
-				// 	},
-				// 	fail:function(err){
-				// 		console.log(err);
-				// 	}
-				// });
+				}, 1200);
+				that.$options.methods.updateContent(that);
+			},
+			//更新content
+			updateContent(that){
+				let _that=that;
+				if((typeof(that))==="undefined")
+					_that=this;
+				_that['content']=null;
+				wx.cloud.callFunction({
+					name:'pull_mininotes',
+					data:{
+					},
+					success:function(res){
+						console.log(res);
+						_that['content']=res.result;
+					},
+					fail:function(err){
+						console.log(err);
+					}
+				});
 			},
 			//发布内容
 			onClickRelease(){
 				const that=this;
-				if(that['boxClass']=='boxShaking')
+				if(that['boxClass']!='box')
 					return ;
 				uni.navigateTo({
 					url:'/pages/release/release'
@@ -80,28 +98,10 @@
 <style scoped>
 	@keyframes load{
 		0% { opacity: 0.0 ;}
-		10% { opacity: 0.1 ; }
-		20% { opacity: 0.2 ;}
-		30% { opacity: 0.3 ; }
-		40% { opacity: 0.4 ;}
-		50% { opacity: 0.5 ;}
-		60% { opacity: 0.6 ; }
-		70% {opacity: 0.7; }
-		80% { opacity: 0.8 ;}
-		90% {opacity: 0.9 ;}
 		100% {opacity: 1.0 ; }
 	}
 	@keyframes distory{
 		0% { opacity: 1.0 ;}
-		10% { opacity: 0.9 ; }
-		20% { opacity: 0.8 ;}
-		30% { opacity: 0.7 ; }
-		40% { opacity: 0.6 ;}
-		50% { opacity: 0.5 ;}
-		60% { opacity: 0.4 ; }
-		70% {opacity: 0.3; }
-		80% { opacity: 0.2 ;}
-		90% {opacity: 0.1 ;}
 		100% {opacity: 0 ; }
 	}
 	@keyframes shaking{
@@ -130,7 +130,7 @@
 	.box{
 		width: 500upx;
 		height: 500upx;
-		position: absolute;
+		position: fixed;
 		left: 50%;
 		top: 40%;
 		margin-top: -250upx;
@@ -139,7 +139,7 @@
 	.boxShaking{
 		width: 500upx;
 		height: 500upx;
-		position: absolute;
+		position: fixed;
 		left: 50%;
 		top: 40%;
 		margin-top: -250upx;
