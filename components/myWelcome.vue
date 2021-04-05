@@ -3,7 +3,7 @@
 		<view class="main">
 			倾述烦恼，分享喜悦
 		</view>
-		<image class="boxImage" src="../static/image/box.png"></image>
+		<image class="boxImage" src="../static/image/box.png" mode="aspectFill"></image>
 		<view class="footer">
 			箱里箱外 -- 您身边的情感伙伴
 		</view>

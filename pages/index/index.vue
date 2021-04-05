@@ -2,7 +2,7 @@
 	<view>
 		<view v-if="showWelcom" :class="welcomClass"><my-welcome></my-welcome></view>
 		<view v-if="showMain" id="mainView">
-			<image :class="boxClass"src="/static/image/box.png" @click="onClickBox"></image>
+			<image :class="boxClass"src="/static/image/box.png" @click="onClickBox" mode="aspectFill"></image>
 			<image id="penImgae"src="/static/image/pen.png" @click="onClickRelease"></image>
 			<my-tabbar now=0 :able="boxClass=='box'"></my-tabbar>
 			<my-read v-if="showRead" :content="content" @close="closeRead" @onClickBox="updateContent"></my-read>

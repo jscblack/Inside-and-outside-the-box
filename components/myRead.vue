@@ -125,6 +125,7 @@
 		animation: load 0.5s linear;
 	}
 	.closeMain{
+		opacity: 0.0 ;
 		animation: distory 0.5s linear;
 	}
 	.cover{
