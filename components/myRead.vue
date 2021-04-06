@@ -60,8 +60,8 @@
 			innerAudioContext.autoplay = true;
 			innerAudioContext.src = srcurl;	
 			setTimeout(function(){
-				that['boxClass']='box';
 				that.$options.methods.updateContent(that);
+				that['boxClass']='box';
 			},1200);
 		},
 		//更新content
@@ -85,7 +85,8 @@
 				}else
 					that['imageClass']='mulImage';
 				that['image']=that['content'].data.note_pic;
-			}
+			}else
+				that['image']=[];
 		},
 		//预览图片
 		onClickIamge(now){

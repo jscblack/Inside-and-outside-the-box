@@ -5,7 +5,7 @@
 			<image :class="boxClass"src="/static/image/box.png" @click="onClickBox" mode="aspectFill"></image>
 			<image id="penImgae"src="/static/image/pen.png" @click="onClickRelease"></image>
 			<my-tabbar now=0 :able="boxClass=='box'"></my-tabbar>
-			<my-read v-if="showRead" :content="content" @close="closeRead" @onClickBox="updateContent"></my-read>
+			<my-read v-if="showRead" :content="content[0]" @close="closeRead" @onClickBox="onClickReadBox"></my-read>
 		</view>
 	</view>
 </template>
@@ -27,11 +27,16 @@
 				welcomClass:'loadWelcome',
 				showWelcom:true,
 				showMain:false,
-				content:null
+				content:[]
 			}
 		},
 		onLoad() {
 			const that=this;
+			setInterval(function(){
+				if(that['content'].length<10)
+					that.$options.methods.updateContent(that);
+				console.log(that['content'].length);
+			},500);
 			setTimeout(function(){
 				that['welcomClass']='distoryWelcome';
 				setTimeout(function(){
@@ -59,28 +64,31 @@
 					that['showRead']=true;			
 					that['boxClass']='box';
 				}, 1200);
-				that.$options.methods.updateContent(that);
 			},
-			//更新content
+			//点击read的箱子
+			onClickReadBox(){
+				const that=this;
+				that['content'].shift();
+			},
+			// 更新content
 			updateContent(that){
 				let _that=that;
 				if((typeof(that))==="undefined")
 					_that=this;
-				_that['content']=null;
 				wx.cloud.callFunction({
 					name:'pull_mininotes',
 					data:{
 					},
 					success:function(res){
 						console.log(res);
-						_that['content']=res.result;
+						_that['content'].push(res.result);
 					},
 					fail:function(err){
 						console.log(err);
 					}
 				});
 			},
-			//发布内容
+			// 发布内容
 			onClickRelease(){
 				const that=this;
 				if(that['boxClass']!='box')
