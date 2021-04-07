@@ -33,7 +33,7 @@
 		onLoad() {
 			const that=this;
 			setInterval(function(){
-				if(that['content'].length<10)
+				if(that['content'].length<5)
 					that.$options.methods.updateContent(that);
 				console.log(that['content'].length);
 			},500);
@@ -42,13 +42,18 @@
 				setTimeout(function(){
 					that['showWelcom']=false;
 					that['showMain']=true;
-				},2000);
-			},3000);
+				},200);
+			},300);
+		},
+		onUnload() {
+			console.log('onUnload');
 		},
 		methods: {
 			//关闭阅读
 			closeRead(){
-				this['showRead']=false;
+				const that=this
+				that['showRead']=false;
+				that.$options.methods.onClickReadBox(that);
 			},
 			//摇箱子
 			onClickBox(){
@@ -61,27 +66,27 @@
 				innerAudioContext.autoplay = true;
 				innerAudioContext.src = srcurl;	
 				setTimeout(function(){ 
-					that['showRead']=true;			
+					that['showRead']=true;
 					that['boxClass']='box';
 				}, 1200);
 			},
 			//点击read的箱子
-			onClickReadBox(){
-				const that=this;
-				that['content'].shift();
+			onClickReadBox(that){
+				let _that=that;
+				if(typeof(that)=='undefined')
+					_that=this;
+				if(_that['content'].length>0)
+					_that['content'].shift();
 			},
 			// 更新content
 			updateContent(that){
-				let _that=that;
-				if((typeof(that))==="undefined")
-					_that=this;
 				wx.cloud.callFunction({
 					name:'pull_mininotes',
 					data:{
 					},
 					success:function(res){
 						console.log(res);
-						_that['content'].push(res.result);
+						that['content'].push(res.result);
 					},
 					fail:function(err){
 						console.log(err);

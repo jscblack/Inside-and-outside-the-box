@@ -66,7 +66,7 @@
 		},
 		//更新content
 		updateContent(that){
-			if(that['content']==null){
+			if(typeof(that['content'])=='undefined'){
 				uni.showToast({
 					title:'好像是一张空纸条',
 					icon:'none',
