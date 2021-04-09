@@ -35,18 +35,14 @@
 			setInterval(function(){
 				if(that['content'].length<5)
 					that.$options.methods.updateContent(that);
-				console.log(that['content'].length);
 			},500);
 			setTimeout(function(){
 				that['welcomClass']='distoryWelcome';
 				setTimeout(function(){
 					that['showWelcom']=false;
 					that['showMain']=true;
-				},200);
-			},300);
-		},
-		onUnload() {
-			console.log('onUnload');
+				},2000);
+			},3000);
 		},
 		methods: {
 			//关闭阅读
@@ -85,11 +81,18 @@
 					data:{
 					},
 					success:function(res){
-						console.log(res);
-						that['content'].push(res.result);
+						console.log('updateContent success',res);
+						if(res.result.errCode==14600){
+							for(let tmpContent of that['content']){
+								if(tmpContent.data._id==res.result.data._id){
+									return ;
+								}
+							}
+							that['content'].push(res.result);
+						}
 					},
 					fail:function(err){
-						console.log(err);
+						console.log('updateContent fail',err);
 					}
 				});
 			},

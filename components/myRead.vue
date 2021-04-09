@@ -66,7 +66,7 @@
 		},
 		//更新content
 		updateContent(that){
-			if(typeof(that['content'])=='undefined'){
+			if(that['content']==null){
 				uni.showToast({
 					title:'好像是一张空纸条',
 					icon:'none',
@@ -76,6 +76,18 @@
 				that['image']=[];
 				return ;
 			}
+			wx.cloud.callFunction({
+				name:'update_viewed',
+				data:{
+					mininote_id:that['content'].data._id
+				},
+				success:function(res){
+					console.log('update_viewed success',res);
+				},
+				fail:function(err){
+					console.log('update_viewed fail',err);
+				}
+			});
 			that['context']=that['content'].data.note_words;
 			if(that['content'].data.has_pic){
 				if(that['content'].data.note_pic.length==1){
