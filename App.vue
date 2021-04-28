@@ -20,7 +20,12 @@
 
 <style>
 	/*每个页面公共css */
+	@font-face {
+		font-family:'myFont';
+		src: url('https://public.kadia.link/font/myFont.ttf');
+	}
 	page{
+		font-family: myFont;
 		background-color: #FFFFFF;
 		height: 100%;
 		width: 100%;
