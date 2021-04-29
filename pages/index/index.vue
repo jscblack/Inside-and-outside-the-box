@@ -1,6 +1,7 @@
 <template>
 	<view>
 		<view v-if="showWelcom" :class="welcomClass"><my-welcome></my-welcome></view>
+		<my-new-user v-if="showNewUser"  @onClickButton="getUser"></my-new-user>
 		<view v-if="showMain" id="mainView">
 			<image :class="boxClass"src="/static/image/box.png" @click="onClickBox" mode="aspectFill"></image>
 			<image id="penImgae"src="/static/image/pen.png" @click="onClickRelease"></image>
@@ -14,11 +15,13 @@
 	import myTabbar from '../../components/myTabbar.vue'
 	import myWelcome from '../../components/myWelcome.vue'
 	import myRead from '../../components/myRead.vue'
+	import myNewUser from '../../components/myNewUser.vue'
 	export default {
 		components: {
 			myTabbar,
 			myWelcome,
-			myRead
+			myRead,
+			myNewUser
 		},
 		data() {
 			return {
@@ -27,6 +30,8 @@
 				welcomClass:'loadWelcome',
 				showWelcom:true,
 				showMain:false,
+				showNewUser:false,
+				isOldUser:false,
 				content:[]
 			}
 		},
@@ -36,15 +41,34 @@
 				if(that['content'].length<5)
 					that.$options.methods.updateContent(that);
 			},500);
+			// 判断是不是老用户
+			// ...
 			setTimeout(function(){
 				that['welcomClass']='distoryWelcome';
 				setTimeout(function(){
 					that['showWelcom']=false;
-					that['showMain']=true;
+					if(that['isOldUser'])
+						that['showMain']=true;
+					else
+						that['showNewUser']=true;
 				},2000);
 			},3000);
 		},
 		methods: {
+			//用户信息
+			getUser(){
+				const that=this;
+				wx.getUserProfile({
+					'desc':'展示用户信息',
+					success: function(res) {
+						console.log(res);
+						//调用后端
+						//...
+						that['showNewUser']=false;
+						that['showMain']=true;
+					},
+				});
+			},
 			//关闭阅读
 			closeRead(){
 				const that=this
@@ -74,7 +98,7 @@
 				if(_that['content'].length>0)
 					_that['content'].shift();
 			},
-			// 更新content
+			// 获取新消息到content数组
 			updateContent(that){
 				wx.cloud.callFunction({
 					name:'pull_mininotes',

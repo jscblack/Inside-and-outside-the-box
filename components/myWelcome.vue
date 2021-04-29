@@ -38,9 +38,10 @@
 	   90% { transform: rotate(-10deg); }
 	   100% { transform: rotate(0deg); }
 	}
-	@keyframes down{
-	    0% {  top: 0%;}
-	   100% { top: 60%; }
+	@keyframes boxMove{
+	    0% {  left:-15%;}
+		
+	    100% { left: 115%; }
 	}
 	.main{
 		width: 600upx;
@@ -61,7 +62,8 @@
 		left: 50%;
 		margin-left: -100upx;
 		top: 60%;
-		animation: shake 0.3s linear infinite,down 2s linear;
+		left: 115%;
+		animation: shake 0.3s linear infinite,boxMove 2s linear;
 	}
 	.footer{
 		width: 600upx;

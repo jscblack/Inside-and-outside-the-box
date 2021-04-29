@@ -4,7 +4,7 @@
 		<view v-show="boxClass=='box'" class="read">
 			<view v-show="context!=''" class="author">
 				<van-image round src="https://img.yzcdn.cn/vant/cat.jpeg" height="2rem" width="2rem" fit="cover" /><label class="nickName">nickName</label>
-				<p style="text-align: center; font-weight: 500;">2019-11-11 12:00:00</p>
+				<p style="text-align: center; font-weight: 500;">{{time}}</p>
 			</view>
 			<p>{{context}}</p>
 			<span :wx:for="image" wx:key="key" wx:for-item="item">
@@ -21,7 +21,7 @@
 	props: {
 		content:{
 			type:Object,
-			default:null
+			default:null,
 		}
 	},
 	mounted(){
@@ -33,7 +33,8 @@
 			mainClass:'main',
 			imageClass:'mulImage',
 			context:'',
-			image:[]
+			image:[],
+			time:''
 		};
     },
 	methods:{
@@ -76,6 +77,27 @@
 				that['image']=[];
 				return ;
 			}
+			that['context']=that['content'].data.note_words;
+			const miniTime=Date.parse(that['content'].data.cre_time);
+			const nowTime = new Date().getTime();
+			if(nowTime-miniTime>=24*60*60)
+				that['time']=new Date(miniTime).toLocaleDateString();
+			else if(nowTime-miniTime>=60*60)
+				that['time']=((nowTime-miniTime)/3600).toFixed(0)+'小时前';
+			else if(nowTime-miniTime>=60)
+				that['time']=((nowTime-miniTime)/60).toFixed(0)+'分钟前';
+			else
+				that['time']='刚刚';
+			if(that['content'].data.has_pic){
+				if(that['content'].data.note_pic.length==1){
+					that['imageClass']='oneImage';
+				}else if(that['content'].data.note_pic.length==2||that['content'].data.note_pic.length==4){
+					that['imageClass']='twoImage';
+				}else
+					that['imageClass']='mulImage';
+				that['image']=that['content'].data.note_pic;
+			}else
+				that['image']=[];
 			wx.cloud.callFunction({
 				name:'update_viewed',
 				data:{
@@ -88,17 +110,6 @@
 					console.log('update_viewed fail',err);
 				}
 			});
-			that['context']=that['content'].data.note_words;
-			if(that['content'].data.has_pic){
-				if(that['content'].data.note_pic.length==1){
-					that['imageClass']='oneImage';
-				}else if(that['content'].data.note_pic.length==2||that['content'].data.note_pic.length==4){
-					that['imageClass']='twoImage';
-				}else
-					that['imageClass']='mulImage';
-				that['image']=that['content'].data.note_pic;
-			}else
-				that['image']=[];
 		},
 		//预览图片
 		onClickIamge(now){
