@@ -3,7 +3,7 @@
 		<view class="main">
 			倾述烦恼，分享喜悦
 		</view>
-		<image class="boxImage" src="../static/image/box.png" mode="aspectFill"></image>
+		<image class="boxImage" src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/box.png" mode="aspectFill"></image>
 		<view class="footer">
 			箱里箱外 -- 您身边的情感伙伴
 		</view>

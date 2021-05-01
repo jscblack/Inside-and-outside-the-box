@@ -1,8 +1,8 @@
 <template name="myTabbar">
 	<view>
 		<view class="main">
-			<image class="world" src="/static/image/world.jpg" @click="onClick0"></image>
-			<image class="user" src="/static/image/user.png" @click="onClick1"></image>
+			<image class="world" src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/world.jpg" @click="onClick0"></image>
+			<image class="user" src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/user.png" @click="onClick1"></image>
 		</view>
 	</view>
 </template>

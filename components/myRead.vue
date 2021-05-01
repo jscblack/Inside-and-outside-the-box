@@ -3,15 +3,16 @@
 		<view class="cover" @click="closeRead"></view>
 		<view v-show="boxClass=='box'" class="read">
 			<view v-show="context!=''" class="author">
-				<van-image round src="https://img.yzcdn.cn/vant/cat.jpeg" height="2rem" width="2rem" fit="cover" /><label class="nickName">nickName</label>
+				<van-image round :src="authorInfo.favicon" height="2rem" width="2rem" fit="cover" /><label class="nickName">{{authorInfo.nickName}}</label>
 				<p style="text-align: center; font-weight: 500;">{{time}}</p>
 			</view>
+			<van-icon v-show="context!=''" :name="collectionName" size="30" @click="onClickCollection"/>
 			<p>{{context}}</p>
 			<span :wx:for="image" wx:key="key" wx:for-item="item">
 				<image :class="imageClass" :src="item" mode="aspectFill" @click="onClickIamge(item+'')" />
 			</span>
 		</view>
-		<image :class="boxClass" src="/static/image/box.png" mode="aspectFill" @click="onClickBox"></image>
+		<image :class="boxClass" src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/box.png" mode="aspectFill" @click="onClickBox"></image>
 	</view>
 </template>
 
@@ -25,6 +26,7 @@
 		}
 	},
 	mounted(){
+		//更新消息
 		this.$options.methods.updateContent(this);
 	},
     data() {
@@ -32,9 +34,11 @@
 			boxClass:'box',
 			mainClass:'main',
 			imageClass:'mulImage',
+			authorInfo:{},
 			context:'',
 			image:[],
-			time:''
+			time:'',
+			collectionName:'star-o'
 		};
     },
 	methods:{
@@ -77,6 +81,9 @@
 				that['image']=[];
 				return ;
 			}
+			that['collectionName']='star-o';
+			that['authorInfo'].favicon=that['content'].data.cre_user_favicon;
+			that['authorInfo'].nickName=that['content'].data.cre_user;
 			that['context']=that['content'].data.note_words;
 			const miniTime=Date.parse(that['content'].data.cre_time);
 			const nowTime = new Date().getTime();
@@ -118,6 +125,20 @@
 			  current: now,
 			  urls: that['image']
 			})
+		},
+		//点击收藏
+		onClickCollection(){
+			const that=this;
+			//调用收藏后端
+			//...
+			if(that['collectionName']=='star-o')
+			{
+				that['collectionName']='star';
+				wx.vibrateShort({'type':'heavy'});
+			}
+			else
+				that['collectionName']='star-o';
+				
 		}
 	}
   }
@@ -183,7 +204,9 @@
 	}
 	.author{
 		text-align: center;
-		margin-bottom: 30upx;
+		margin-bottom: 20upx;
+		width: 70%;
+		display: inline-block;
 	}
 	.nickName{
 		font-size: 45upx;

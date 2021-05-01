@@ -12,7 +12,9 @@
     name:"myNewUser",
     data() {
 		return {
-			image:['/static/image/0.png','/static/image/1.png','/static/image/2.png'],
+			image:['https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/0.png',
+				'https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/1.png',
+				'https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/2.png'],
 			now:0,
 			showImg:true,
 		};

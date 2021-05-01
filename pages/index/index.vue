@@ -3,8 +3,8 @@
 		<view v-if="showWelcom" :class="welcomClass"><my-welcome></my-welcome></view>
 		<my-new-user v-if="showNewUser"  @onClickButton="getUser"></my-new-user>
 		<view v-if="showMain" id="mainView">
-			<image :class="boxClass"src="/static/image/box.png" @click="onClickBox" mode="aspectFill"></image>
-			<image id="penImgae"src="/static/image/pen.png" @click="onClickRelease"></image>
+			<image :class="boxClass"src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/box.png" @click="onClickBox" mode="aspectFill"></image>
+			<image id="penImgae"src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/pen.png" @click="onClickRelease"></image>
 			<my-tabbar now=0 :able="boxClass=='box'"></my-tabbar>
 			<my-read v-if="showRead" :content="content[0]" @close="closeRead" @onClickBox="onClickReadBox"></my-read>
 		</view>
@@ -37,12 +37,21 @@
 		},
 		onLoad() {
 			const that=this;
+			//获取消息
 			setInterval(function(){
 				if(that['content'].length<5)
 					that.$options.methods.updateContent(that);
 			},500);
 			// 判断是不是老用户
-			// ...
+			wx.cloud.callFunction({
+				name:'check_usr',
+				data:{},
+				success:function(res){
+					if(res.result.errMsg=="check_usr:ok_has_usr")
+						that['isOldUser']=true;
+				}
+			});
+			//欢迎页面结束
 			setTimeout(function(){
 				that['welcomClass']='distoryWelcome';
 				setTimeout(function(){
@@ -60,18 +69,26 @@
 				const that=this;
 				wx.getUserProfile({
 					'desc':'展示用户信息',
-					success: function(res) {
-						console.log(res);
-						//调用后端
-						//...
-						that['showNewUser']=false;
-						that['showMain']=true;
+					success: function(userInfo) {
+						wx.cloud.callFunction({
+							name:'upload_usr',
+							data:{
+								user_nickname:userInfo.userInfo.nickName,
+								user_favicon:userInfo.userInfo.avatarUrl
+							},
+							success:function(res){
+								if(res.result.errCode==29000){
+									that['showNewUser']=false;
+									that['showMain']=true;
+								}
+							}
+						});
 					},
 				});
 			},
 			//关闭阅读
 			closeRead(){
-				const that=this
+				const that=this;
 				that['showRead']=false;
 				that.$options.methods.onClickReadBox(that);
 			},
