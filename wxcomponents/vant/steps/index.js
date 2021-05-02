@@ -30,6 +30,9 @@ component_1.VantComponent({
         onClick: function (event) {
             var index = event.currentTarget.dataset.index;
             this.$emit('click-step', index);
-        }
+        },
+		onPictureClicked: function(pic) {
+			this.$emit('onPictureClicked',pic);
+		}
     },
 });

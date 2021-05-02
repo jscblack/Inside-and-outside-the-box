@@ -5,6 +5,11 @@
       <view class="van-step__title" :style="index === active ? 'color: ' + activeColor : ''">
         <view>{{ item.text }}</view>
         <view class="desc-class">{{ item.desc }}</view>
+		<view v-if="item.pics.length>0">
+			<view v-for="pic in item.pics">
+				<image src="pic" mode="aspectFill" @click="onPictureClicked(pic)"></image>
+			</view>
+		</view>
       </view>
       <view class="van-step__circle-container">
         <block v-if="index !== active">
@@ -51,13 +56,16 @@ component_1.VantComponent({
             type: String,
             value: 'checked'
         },
-        inactiveIcon: String
+        inactiveIcon: String,
     },
     methods: {
         onClick: function (event) {
             var index = event.currentTarget.dataset.index;
             this.$emit('click-step', index);
-        }
+        },
+		onPictureClicked: function(pic) {
+			this.$emit('onPictureClicked',pic);
+		}
     },
 });
 export default global['__wxComponents']['vant/steps/index']
