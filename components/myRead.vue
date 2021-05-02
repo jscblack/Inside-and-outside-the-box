@@ -1,6 +1,7 @@
 <template name="myRead">
 	<view :class="mainClass">
 		<view class="cover" @click="closeRead"></view>
+		<image v-show="boxClass=='box'" class="myReadBkTop" src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/myReadBkTop.png" ></image>
 		<view v-show="boxClass=='box'" class="read">
 			<view v-show="context!=''" class="author">
 				<van-image round :src="authorInfo.favicon" height="2rem" width="2rem" fit="cover" /><label class="nickName">{{authorInfo.nickName}}</label>
@@ -181,20 +182,32 @@
 		position: fixed;
 		z-index: 2;
 	}
+	.myReadBkTop{
+		animation: load 0.5s linear;
+		width: 610upx;
+		height: 50upx;
+		position: absolute;
+		top: 100upx;
+		left: 50%;
+		margin-left: -305upx;
+		z-index: 2;
+	}
 	.read{
 		animation: load 0.5s linear;
 		width: 550upx;
 		min-height: 100upx;
 		position: absolute;
-		top: 10%;
+		top: 150upx;
 		left: 50%;
 		margin-left: -305upx;
 		margin-bottom: 275upx;
-		background-color: #C8C7CC;
+ 		background-image: url('https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/myReadBk.png');
 		z-index: 2;
 		text-align: center;
 		padding: 30upx;
-		border-radius: 50upx;
+		padding-top: 0;
+		border-bottom-left-radius: 50upx;
+		border-bottom-right-radius: 50upx;
 	}
 	.read p{
 		width: 100%;
