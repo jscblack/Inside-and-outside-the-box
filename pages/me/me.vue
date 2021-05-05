@@ -2,8 +2,8 @@
 	<view>
 		<view v-if="loadingFinished">
 			<van-steps
-			  steps="{{ content }}"
-			  active="{{ active }}"
+			  :steps="content"
+			  :active="active"
 			  direction="vertical"
 			  active-color="#000000"
 			  inactive-color="#000000"
@@ -82,9 +82,7 @@
 		}
 	}
 </script>
-<style>
 
-</style>
 <style>
 	.step-class {
 		overflow: scroll !important;
