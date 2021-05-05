@@ -82,9 +82,7 @@
 		}
 	}
 </script>
-<style>
 
-</style>
 <style>
 	.step-class {
 		overflow: scroll !important;

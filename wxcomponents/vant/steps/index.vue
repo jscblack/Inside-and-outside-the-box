@@ -5,9 +5,9 @@
       <view class="van-step__title" :style="index === active ? 'color: ' + activeColor : ''">
         <view>{{ item.text }}</view>
         <view class="desc-class">{{ item.desc }}</view>
-		<view v-if="item.pics.length>0">
-			<view v-for="pic in item.pics">
-				<image src="pic" mode="aspectFill" @click="onPictureClicked(pic)"></image>
+		<view v-if="item.pics.length > 0">
+			<view v-for="(pic,index) in (item.pics)">
+				<image :src="pic" mode="widthFix" style="width: 650rpx;"></image>
 			</view>
 		</view>
       </view>
@@ -56,7 +56,7 @@ component_1.VantComponent({
             type: String,
             value: 'checked'
         },
-        inactiveIcon: String,
+        inactiveIcon: String
     },
     methods: {
         onClick: function (event) {
