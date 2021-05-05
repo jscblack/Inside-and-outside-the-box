@@ -83,6 +83,17 @@
 				return ;
 			}
 			that['collectionName']='star-o';
+			wx.cloud.callFunction({
+				name:'chk_fav',
+				data:{
+					note_id:that['content'].data._id,
+				},
+				success:function(res){
+					console.log('chk_fav success',res);
+					if(res.result.errCode==39000)
+						that['collectionName']='star';
+				}
+			});
 			that['authorInfo'].favicon=that['content'].data.cre_user_favicon;
 			that['authorInfo'].nickName=that['content'].data.cre_user;
 			that['context']=that['content'].data.note_words;
@@ -130,8 +141,19 @@
 		//点击收藏
 		onClickCollection(){
 			const that=this;
-			//调用收藏后端
-			//...
+			wx.cloud.callFunction({
+				name:'alter_fav',
+				data:{
+					note_id:that['content'].data._id,
+					oper:that['collectionName']=='star-o'?1:2
+				},
+				success:function(res){
+					console.log('alter_fav success',res);
+				},
+				fail:function(err){
+					console.log('alter_fav fail',err);
+				}
+			});
 			if(that['collectionName']=='star-o')
 			{
 				that['collectionName']='star';
@@ -139,7 +161,6 @@
 			}
 			else
 				that['collectionName']='star-o';
-				
 		}
 	}
   }

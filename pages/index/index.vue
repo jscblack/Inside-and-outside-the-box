@@ -60,8 +60,8 @@
 						that['showMain']=true;
 					else
 						that['showNewUser']=true;
-				},200);
-			},300);
+				},2000);
+			},3000);
 		},
 		methods: {
 			//用户信息
