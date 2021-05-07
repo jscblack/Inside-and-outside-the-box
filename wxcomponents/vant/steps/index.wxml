@@ -14,7 +14,7 @@
         <view>{{ item.text }}</view>
         <view class="desc-class">{{ item.desc }}</view>
 		<view wx:if="{{ item.pics.length > 0 }}">
-			<view wx:for="{{item.pics}}" wx:for-item="pic">
+			<view wx:for="{{item.pics}}" wx:key="key" wx:for-item="pic">
 				<image src="{{pic}}" mode="widthFix" style="width: 650rpx;"></image>
 			</view>
 		</view>

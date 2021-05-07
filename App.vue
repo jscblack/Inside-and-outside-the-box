@@ -24,6 +24,10 @@
 		font-family:'myFont';
 		src: url('https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/font/myFont.ttf');
 	}
+	.safeView{
+		width: 100%;
+		height: 50upx;
+	}
 	page{
 		font-family: myFont;
 		background-color: #FFFFFF;

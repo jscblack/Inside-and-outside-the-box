@@ -17,6 +17,12 @@
 			"style": {
 				"navigationBarTitleText": "小窝"
 			}
+		},
+		{
+			"path": "pages/myFavorite/myFavorite",
+			"style": {
+				"navigationBarTitleText": "我的收藏"
+			}
 		}
 	],
 	"tabBar": {

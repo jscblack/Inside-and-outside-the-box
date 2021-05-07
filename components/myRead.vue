@@ -4,7 +4,7 @@
 		<image v-show="boxClass=='box'" class="myReadBkTop" src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/myReadBkTop.png" ></image>
 		<view v-show="boxClass=='box'" class="read">
 			<view v-show="context!=''" class="author">
-				<van-image round :src="authorInfo.favicon" height="2rem" width="2rem" fit="cover" /><label class="nickName">{{authorInfo.nickName}}</label>
+				<image class="favicon" :src="authorInfo.favicon" mode="aspectFill" /><label class="nickName">{{authorInfo.nickName}}</label>
 				<p style="text-align: center; font-weight: 500;">{{time}}</p>
 			</view>
 			<van-icon v-show="context!=''" :name="collectionName" size="30" @click="onClickCollection"/>
@@ -72,6 +72,10 @@
 		},
 		//更新content
 		updateContent(that){
+			function tansf(utc_datetime) {
+				const time=new Date(utc_datetime);
+				return time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDay()+' '+time.getHours()+':'+time.getMinutes()+':'+time.getSeconds();
+			}
 			if(that['content']==null){
 				uni.showToast({
 					title:'好像是一张空纸条',
@@ -99,12 +103,12 @@
 			that['context']=that['content'].data.note_words;
 			const miniTime=Date.parse(that['content'].data.cre_time);
 			const nowTime = new Date().getTime();
-			if(nowTime-miniTime>=24*60*60)
-				that['time']=new Date(miniTime).toLocaleDateString();
-			else if(nowTime-miniTime>=60*60)
-				that['time']=((nowTime-miniTime)/3600).toFixed(0)+'小时前';
-			else if(nowTime-miniTime>=60)
-				that['time']=((nowTime-miniTime)/60).toFixed(0)+'分钟前';
+			if(nowTime-miniTime>=24*60*60*1000)
+				that['time']=tansf(that['content'].data.cre_time);
+			else if(nowTime-miniTime>=60*60*1000)
+				that['time']=parseInt((nowTime-miniTime)/3600000)+'小时前';
+			else if(nowTime-miniTime>=60*1000)
+				that['time']=parseInt((nowTime-miniTime)/60000)+'分钟前';
 			else
 				that['time']='刚刚';
 			if(that['content'].data.has_pic){
@@ -242,9 +246,14 @@
 		width: 70%;
 		display: inline-block;
 	}
+	.favicon{
+		height: 2rem;
+		width: 2rem;
+		border-radius: 1rem;
+		vertical-align: middle;
+	}
 	.nickName{
-		font-size: 45upx;
-		font-weight: 500;
+		font-size: 1rem;
 	}
 	.oneImage{
 		width: 510upx;

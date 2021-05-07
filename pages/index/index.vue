@@ -143,7 +143,7 @@
 				if(that['boxClass']!='box')
 					return ;
 				uni.navigateTo({
-					url:'/pages/release/release'
+					url:'/pages/myFavorite/myFavorite'
 				})
 			}
 		}
