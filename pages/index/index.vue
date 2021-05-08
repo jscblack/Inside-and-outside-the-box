@@ -55,13 +55,13 @@
 			setTimeout(function(){
 				that['welcomClass']='distoryWelcome';
 				setTimeout(function(){
-					that['showWelcom']=false;
-					if(that['isOldUser'])
+					// that['showWelcom']=false;
+					// if(that['isOldUser'])
 						that['showMain']=true;
-					else
-						that['showNewUser']=true;
-				},2000);
-			},3000);
+					// else
+					// 	that['showNewUser']=true;
+				},200);
+			},300);
 		},
 		methods: {
 			//用户信息

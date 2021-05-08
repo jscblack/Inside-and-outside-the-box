@@ -105,6 +105,7 @@
 		border-radius: 1rem;
 	}
 	.nickName{
+		margin-left: 0.3rem;
 		font-size: 1rem;
 	}
 	.context{
