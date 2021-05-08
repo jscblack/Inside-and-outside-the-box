@@ -4,11 +4,14 @@
 		<image v-show="boxClass=='box'" class="myReadBkTop" src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/myReadBkTop.png" ></image>
 		<view v-show="boxClass=='box'" class="read">
 			<view v-show="context!=''" class="author">
-				<image class="favicon" :src="authorInfo.favicon" mode="aspectFill" /><label class="nickName">{{authorInfo.nickName}}</label>
-				<p style="text-align: center; font-weight: 500;">{{time}}</p>
+				<a>举报</a>
+				<view class="authorInfo">
+					<image class="favicon" :src="authorInfo.favicon" mode="aspectFill" /><label class="nickName">{{authorInfo.nickName}}</label>
+				</view>
+				<van-icon style="text-align: right;" v-show="context!=''" :name="collectionName" size="30" @click="onClickCollection"/>
 			</view>
-			<van-icon v-show="context!=''" :name="collectionName" size="30" @click="onClickCollection"/>
-			<p>{{context}}</p>
+			<p style="text-align: center; font-weight: 500;">{{time}}</p>
+			<p style="margin-top: 20upx;">{{context}}</p>
 			<span :wx:for="image" wx:key="key" wx:for-item="item">
 				<image :class="imageClass" :src="item" mode="aspectFill" @click="onClickIamge(item+'')" />
 			</span>
@@ -228,7 +231,7 @@
 		margin-bottom: 275upx;
  		background-image: url('https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/myReadBk.png');
 		z-index: 2;
-		text-align: center;
+		text-align: left;
 		padding: 30upx;
 		padding-top: 0;
 		border-bottom-left-radius: 50upx;
@@ -241,16 +244,19 @@
 		word-break: break-all;
 	}
 	.author{
-		text-align: center;
-		margin-bottom: 20upx;
-		width: 70%;
-		display: inline-block;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	.authorInfo{
+		display: flex;
+		align-items: center;
 	}
 	.favicon{
 		height: 2rem;
 		width: 2rem;
 		border-radius: 1rem;
-		vertical-align: middle;
 	}
 	.nickName{
 		font-size: 1rem;

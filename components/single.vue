@@ -2,10 +2,12 @@
 	<view>
 		<view class="mainWindow">
 			<view class="author">
-				<image class="favicon" :src="info.cre_user_favicon" mode="aspectFill" /><label class="nickName">{{info.cre_user}}</label>
-				<p>{{info.cre_time}}</p>
+				<view class="authorInfo">
+					<image class="favicon" :src="info.cre_user_favicon" mode="aspectFill" /><label class="nickName">{{info.cre_user}}</label>
+				</view>
+				<van-icon :name="collectionName" size="30" @click="onClickCollection"/>
 			</view>
-			<van-icon :name="collectionName" size="30" @click="onClickCollection"/>
+			<p>{{info.cre_time}}</p>
 			<p class="context">{{info.note_words}}</p>
 			<span style="text-align: center;">
 				<image :class="imageClass" :wx:for="info.note_pic" wx:key="key" wx:for-item="item" :src="item" mode="aspectFill" @click="onClickIamge(item+'')" />
@@ -88,14 +90,19 @@
 		border-radius: 20upx;
 	}
 	.author{
-		width: 90%;
-		display: inline-block;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	.authorInfo{
+		display: flex;
+		align-items: center;
 	}
 	.favicon{
 		height: 2rem;
 		width: 2rem;
 		border-radius: 1rem;
-		vertical-align: middle;
 	}
 	.nickName{
 		font-size: 1rem;
