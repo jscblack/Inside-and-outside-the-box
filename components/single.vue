@@ -7,11 +7,11 @@
 				</view>
 				<van-icon :name="collectionName" size="30" @click="onClickCollection"/>
 			</view>
-			<p>{{info.cre_time}}</p>
+			<p style="text-align: left;">{{info.cre_time}}</p>
 			<p class="context">{{info.note_words}}</p>
-			<span style="text-align: center;">
+			<view style="text-align: left;">
 				<image :class="imageClass" :wx:for="info.note_pic" wx:key="key" wx:for-item="item" :src="item" mode="aspectFill" @click="onClickIamge(item+'')" />
-			</span>
+			</view>
 		</view>
 	</view>
 </template>
@@ -88,6 +88,7 @@
 		padding: 30upx;
 		background-color: #DCDEE0;
 		border-radius: 20upx;
+		text-align: center;
 	}
 	.author{
 		width: 100%;

@@ -13,9 +13,9 @@
 			</view>
 			<p style="text-align: center; font-weight: 500;">{{time}}</p>
 			<p style="margin-top: 20upx;">{{context}}</p>
-			<span :wx:for="image" wx:key="key" wx:for-item="item">
-				<image :class="imageClass" :src="item" mode="aspectFill" @click="onClickIamge(item+'')" />
-			</span>
+			<view  style="text-align: left;">
+				<image :wx:for="image" wx:key="key" wx:for-item="item" :class="imageClass" :src="item" mode="aspectFill" @click="onClickIamge(item+'')" />
+			</view>
 		</view>
 		<image v-show="showBox" :class="boxClass" src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/box.png" mode="aspectFill" @click="onClickBox"></image>
 	</view>
@@ -23,7 +23,8 @@
 
 <script>
 	export default {
-		name:"myRead",		props: {
+		name:"myRead",		
+		props: {
 			content:{
 				type:Object,
 				default:null,
@@ -193,6 +194,11 @@
 				const that=this;
 				//发送后端请求
 				//...
+				uni.showToast({
+					title:'感谢您的举报，我们会尽快核实',
+					icon:'none',
+					duration:1200
+				});
 				that['onCancelReport']();
 			}
 		}
@@ -231,6 +237,7 @@
 	.cover{
 		width: 100%;
 		height: 100%;
+		top: 0upx;
 		background-color: #888888;
 		opacity:0.8;
 		position: fixed;
@@ -289,18 +296,18 @@
 		font-size: 1rem;
 	}
 	.oneImage{
-		width: 510upx;
-		height: 510upx;
+		width: 525upx;
+		height: 525upx;
 		margin: 5upx;
 	}
 	.twoImage{
-		width: 255upx;
-		height: 255upx;
+		width: 265upx;
+		height: 265upx;
 		margin: 5upx;
 	}
 	.mulImage{
-		width: 170upx;
-		height: 170upx;
+		width: 175upx;
+		height: 175upx;
 		margin: 5upx;
 	}
 	.box{

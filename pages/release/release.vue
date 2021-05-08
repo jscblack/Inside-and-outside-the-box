@@ -87,6 +87,11 @@
 							return ;
 						}
 						uni.navigateBack();
+						uni.showToast({
+							title:'Okay',
+							icon:'none',
+							duration:1200
+						});
 					},
 					fail:function(err){
 						that['submitText']='Submit';
