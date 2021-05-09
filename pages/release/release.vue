@@ -115,6 +115,33 @@
 				for(const index in that['image']){
 					if(that['image'][index].status!='uploading')
 						continue;
+						
+					wx.compressImage({
+					    src: that['image'][index].url,
+					    quality: 50,
+					    success: function(res) {
+							console.log(res)
+							console.log('tmp/'+that.$options.methods.getRandomFileName(that['image'][index].url))
+					    	wx.cloud.uploadFile({
+					    		cloudPath: 'tmp/'+that.$options.methods.getRandomFileName(that['image'][index].url),
+					    		filePath: res.tempFilePath,
+					    		success: function(ret){
+									console.log("checking img")
+									wx.cloud.callFunction({
+										name:'chk_imgsec',
+										data:{
+											url:ret.fileID
+										},
+										success:function(rer){
+											//做一下处理，这边出错了可以直接提醒
+										}
+									});
+									
+					    		},
+					    	});
+					    }
+					 })
+					
 					wx.cloud.uploadFile({
 						cloudPath: that.$options.methods.getRandomFileName(that['image'][index].url),
 						filePath: that['image'][index].url,
