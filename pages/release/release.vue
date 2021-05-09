@@ -40,7 +40,7 @@
 					if(that['image'][index].fileID==null){
 						if(that['image'][index].status=='failed'){
 							uni.showToast({
-								title:'糟糕，有图片上传失败了，先把它给删掉趴',
+								title:'糟糕，有图片上传失败了',
 								icon:'none',
 								duration:2000
 							});
@@ -73,7 +73,7 @@
 						const errCode=res.result.errCode;
 						if(errCode==87014){
 							uni.showToast({
-								title:'文字或图片有违规哦！',
+								title:'文字有违规哦！',
 								icon:'none',
 								duration:2000
 							});
@@ -115,25 +115,51 @@
 				for(const index in that['image']){
 					if(that['image'][index].status!='uploading')
 						continue;
-						
+					//压缩图片
 					wx.compressImage({
 					    src: that['image'][index].url,
 					    quality: 50,
 					    success: function(res) {
-							console.log(res)
-							console.log('tmp/'+that.$options.methods.getRandomFileName(that['image'][index].url))
+							//图片->tmp
 					    	wx.cloud.uploadFile({
 					    		cloudPath: 'tmp/'+that.$options.methods.getRandomFileName(that['image'][index].url),
 					    		filePath: res.tempFilePath,
 					    		success: function(ret){
 									console.log("checking img")
+									//检查图片
 									wx.cloud.callFunction({
 										name:'chk_imgsec',
 										data:{
 											url:ret.fileID
 										},
-										success:function(rer){
-											//做一下处理，这边出错了可以直接提醒
+										complete:function(res){
+											if(res.result.errCode!=52000){
+												that['image'][index].status='failed';
+												uni.showToast({
+													title:'图片好像不太合法哦',
+													icon:'none',
+													duration:2000
+												});
+											}else{
+												//上传到云存储
+												wx.cloud.uploadFile({
+													cloudPath: that.$options.methods.getRandomFileName(that['image'][index].url),
+													filePath: that['image'][index].url,
+													success: function(res){
+														that['image'][index].fileID=res.fileID;
+														that['image'][index].status='done';
+														wx.cloud.callFunction({
+														    name:'update_record',
+														    data:{
+														        cloud_link:res.fileID
+														    }
+														 });
+													},
+													fail: function(err){
+														that['image'][index].status='failed';
+													}
+												});
+											}
 										}
 									});
 									
@@ -141,24 +167,6 @@
 					    	});
 					    }
 					 })
-					
-					wx.cloud.uploadFile({
-						cloudPath: that.$options.methods.getRandomFileName(that['image'][index].url),
-						filePath: that['image'][index].url,
-						success: function(res){
-							that['image'][index].fileID=res.fileID;
-							that['image'][index].status='done';
-							wx.cloud.callFunction({
-							    name:'update_record',
-							    data:{
-							        cloud_link:res.fileID
-							    }
-							 });
-						},
-						fail: function(err){
-							that['image'][index].status='failed';
-						}
-					});
 				}
 			},
 			//点击删除
