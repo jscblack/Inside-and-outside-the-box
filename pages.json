@@ -41,6 +41,18 @@
 			"style": {
 				"navigationBarTitleText": "反馈"
 			}
+		},
+		{
+			"path": "pages/manual/manual",
+			"style": {
+				"navigationBarTitleText": "用户手册"
+			}
+		},
+		{
+			"path": "pages/myNote/myNote",
+			"style": {
+				"navigationBarTitleText": "我的纸条"
+			}
 		}
 	],
 	"tabBar": {

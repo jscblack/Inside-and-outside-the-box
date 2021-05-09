@@ -2,26 +2,25 @@
 	<view>
 		<van-loading v-if="loading==true" class="load" type="spinner" color="#000000" size="2rem" />
 		<view v-if="loading==false">
-			<single :wx:for="data" wx:for-item="item"  wx:for-index="index" wx:key="key" :info="item.det" @delete="onDelete(index+'')"></single>
+			<single-self :wx:for="data" wx:for-item="item"  wx:for-index="index" wx:key="key" :info="item" @delete="onDelete(index+'')"></single-Self>
 			<view class="safeView"></view>
 		</view>
 	</view>
 </template>
 
 <script>
-	import single from '../../components/single.vue'
+	import singleSelf from '../../components/singleSelf.vue'
 	export default {
 		components: {
-			single
+			singleSelf
 		},
-		data(){
-			return{
+		data() {
+			return {
 				loading:true,
 				data:[]
 			}
 		},
-		onLoad(){
-			//加载收藏
+		onLoad() {
 			const that=this;
 			//时间转化
 			function tansf(utc_datetime) {
@@ -29,22 +28,27 @@
 				return time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDay()+' '+time.getHours()+':'+time.getMinutes()+':'+time.getSeconds();
 			}
 			wx.cloud.callFunction({
-				name:'pull_fav',
-				data:{},
+				name:'pull_self',
+				data: {},
 				success:function(res){
-					that['data']=res.result.data;
-					for(const index in that['data'])
-						that['data'][index].det.cre_time=tansf(that['data'][index].det.cre_time);
-					that['loading']=false;
-					console.log('pull_fav ok',res);
+					if(res.result.errCode==13600)
+					{
+						console.log('pull_self ok',res);
+						that['data']=res.result.data
+						for(const index in that['data'])
+							that['data'][index].cre_time=tansf(that['data'][index].cre_time);
+						that['loading']=false;
+					}
 				}
 			});
 		},
-		methods:{
-			//删除收藏
+		methods: {
+			//删除纸条
 			onDelete(indexS){
 				const index=parseInt(indexS);
 				this[`data`].splice(index, 1);
+				//调用后端删除
+				//...
 			}
 		}
 	}
