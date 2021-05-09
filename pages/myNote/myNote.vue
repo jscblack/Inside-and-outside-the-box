@@ -2,7 +2,7 @@
 	<view>
 		<van-loading v-if="loading==true" class="load" type="spinner" color="#000000" size="2rem" />
 		<view v-if="loading==false">
-			<single-self :wx:for="data" wx:for-item="item"  wx:for-index="index" wx:key="key" :info="item" @delete="onDelete(index+'')"></single-Self>
+			<single-self :wx:for="data" wx:for-item="item"  wx:for-index="index" wx:key="key" :info="item.content" @delete="onDelete(index+'')"></single-Self>
 			<view class="safeView"></view>
 		</view>
 	</view>
@@ -34,9 +34,15 @@
 					if(res.result.errCode==13600)
 					{
 						console.log('pull_self ok',res);
-						that['data']=res.result.data
-						for(const index in that['data'])
-							that['data'][index].cre_time=tansf(that['data'][index].cre_time);
+						for(const index in res.result.data)
+						{
+							res.result.data[index].cre_time=tansf(res.result.data[index].cre_time);
+							const tmpObj={
+								content:res.result.data[index],
+								key:res.result.data[index]._id
+							};
+							that['data'][index]=tmpObj;
+						}
 						that['loading']=false;
 					}
 				}
@@ -45,10 +51,21 @@
 		methods: {
 			//删除纸条
 			onDelete(indexS){
+				const that=this;
 				const index=parseInt(indexS);
-				this[`data`].splice(index, 1);
-				//调用后端删除
-				//...
+				wx.cloud.callFunction({
+					name:'delete_content',
+					data:{
+						mininote_id:that['data'][index].content._id,
+					},
+					success:function(res){
+						console.log('delete_content success',res);
+					},
+					fail:function(err){
+						console.log('delete_content fail',err);
+					}
+				});
+				that[`data`].splice(index, 1);
 			}
 		}
 	}

@@ -25,7 +25,7 @@
 			default: {}
 		}
 	},
-	mounted() {
+	created() {
 		const that=this;
 		if(that['info'].has_pic){
 			if(that['info'].note_pic.length==1){
@@ -60,19 +60,6 @@
 			    content: '不再收藏这一条了吗',
 			    success: function (res) {
 			        if (res.confirm) {
-			            wx.cloud.callFunction({
-			            	name:'alter_fav',
-			            	data:{
-			            		note_id:that['info']._id,
-			            		oper:2
-			            	},
-			            	success:function(res){
-			            		console.log('alter_fav success',res);
-			            	},
-			            	fail:function(err){
-			            		console.log('alter_fav fail',err);
-			            	}
-			            });
 			            that.$emit('delete');
 			        }
 			    }

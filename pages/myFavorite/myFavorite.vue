@@ -2,7 +2,7 @@
 	<view>
 		<van-loading v-if="loading==true" class="load" type="spinner" color="#000000" size="2rem" />
 		<view v-if="loading==false">
-			<single :wx:for="data" wx:for-item="item"  wx:for-index="index" wx:key="key" :info="item.det" @delete="onDelete(index+'')"></single>
+			<single :wx:for="data" wx:for-item="item"  wx:for-index="index" wx:key="note" :info="item.det" @delete="onDelete(index+'')"></single>
 			<view class="safeView"></view>
 		</view>
 	</view>
@@ -43,8 +43,22 @@
 		methods:{
 			//删除收藏
 			onDelete(indexS){
+				const that=this;
 				const index=parseInt(indexS);
-				this[`data`].splice(index, 1);
+				wx.cloud.callFunction({
+					name:'alter_fav',
+					data:{
+						note_id:that['data'][index].det._id,
+						oper:2
+					},
+					success:function(res){
+						console.log('alter_fav success',res);
+					},
+					fail:function(err){
+						console.log('alter_fav fail',err);
+					}
+				});
+				that[`data`].splice(index, 1);
 			}
 		}
 	}
