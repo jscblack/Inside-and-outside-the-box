@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view>
-			<view style="height: 230rpx;padding-top: 100rpx;">
+			<view class="avaterField">
 				<van-row>
 				  <van-col span="6" offset="3">
 					  <van-image
@@ -13,7 +13,7 @@
 					  />
 				  </van-col>
 				  <van-col span="12" offset="3">
-					  <view style="position: absolute;top: 13%;font-size: 60rpx; text-align: center;">{{nickName}}</view>
+					  <view class="userNameField">{{nickName}}</view>
 				  </van-col>
 				</van-row>
 			</view>
@@ -57,5 +57,14 @@
 </script>
 
 <style scoped>
-	
+	.userNameField{
+		position: absolute;
+		top: 13%;
+		font-size: 60rpx;
+		text-align: center;
+	},
+	.avaterField{
+		height: 230rpx;
+		padding-top: 100rpx;
+	}
 </style>
