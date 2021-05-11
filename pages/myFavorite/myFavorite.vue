@@ -1,3 +1,10 @@
+<!--
+ * @Author       : Gehrychiang
+ * @LastEditTime : 2021-05-11 17:22:51
+ * @Website      : www.yilantingfeng.site
+ * @E-mail       : gehrychiang@aliyun.com
+ * @ProbTitle    : (记得补充题目标题)
+-->
 <template>
 	<view>
 		<view v-if="loading==true"><me-loading></me-loading></view>
@@ -5,7 +12,6 @@
 			<single :wx:for="data" wx:for-item="item"  wx:for-index="index" wx:key="note" :info="item.det" @delete="onDelete(index+'')"></single>
 			<view class="safeView"></view>
 		</view>
-		
 		<my-tabbar now=1></my-tabbar>
 	</view>
 </template>
@@ -27,9 +33,6 @@
 			}
 		},
 		onShow(){
-			console.log(this['loading'])
-			//加载收藏
-			//this.loading=true;
 			const that=this;
 			//时间转化
 			function tansf(utc_datetime) {

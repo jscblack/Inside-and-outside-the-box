@@ -1,6 +1,6 @@
 <!--
  * @Author       : Gehrychiang
- * @LastEditTime : 2021-05-11 14:30:20
+ * @LastEditTime : 2021-05-11 17:21:56
  * @Website      : www.yilantingfeng.site
  * @E-mail       : gehrychiang@aliyun.com
  * @ProbTitle    : (记得补充题目标题)
@@ -69,13 +69,6 @@
 					that.loading=false;
 				},
 			});
-			// wx.getUserInfo({
-			//     success: function (res) {
-			//         console.log(res);
-			// 		that['avatarUrl']=res.userInfo.avatarUrl;
-			// 		that['nickName']=res.userInfo.nickName;
-			//     }
-			// })
 		},
 		onShow() {
 			

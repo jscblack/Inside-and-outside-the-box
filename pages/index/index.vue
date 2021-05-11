@@ -3,11 +3,6 @@
 		<view v-if="showWelcom" :class="welcomClass"><my-welcome></my-welcome></view>
 		<my-new-user v-if="showNewUser"  @onClickButton="getUser"></my-new-user>
 		<view v-if="showMain" id="mainView">
-			<h1>临时功能区</h1>
-<!-- 			<p  @click="tmp1">我的收藏</p> -->
-			<p  @click="tmp2">设置</p>
-			<p  @click="tmp3">用户手册</p>
-			<p  @click="tmp4">我的纸条</p>
 			<image :class="boxClass"src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/box.png" @click="onClickBox" mode="aspectFill"></image>
 			<image id="penImgae"src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/pen.png" @click="onClickRelease"></image>
 			<my-tabbar now=0 :able="boxClass=='box'"></my-tabbar>
@@ -170,26 +165,6 @@
 					return ;
 				uni.navigateTo({
 					url:'/pages/release/release'
-				})
-			},
-			// tmp1(){
-			// 	uni.navigateTo({
-			// 		url:'/pages/myFavorite/myFavorite'
-			// 	})
-			// },
-			tmp2(){
-				uni.navigateTo({
-					url:'/pages/setting/setting'
-				})
-			},
-			tmp3(){
-				uni.navigateTo({
-					url:'/pages/manual/manual'
-				})
-			},
-			tmp4(){
-				uni.navigateTo({
-					url:'/pages/myNote/myNote'
 				})
 			}
 		}
