@@ -71,9 +71,9 @@
 		onShow() {
 			const that=this;
 			wx.onAccelerometerChange(function(e){
-				console.log(e.x)
-				console.log(e.y)
-				console.log(e.z)
+				// console.log(e.x)
+				// console.log(e.y)
+				// console.log(e.z)
 				if (e.x > 0.8 || e.y > 0.8) {
 					if(that['showRead']==false){
 						that.onClickBox();
