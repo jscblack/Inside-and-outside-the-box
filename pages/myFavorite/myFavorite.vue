@@ -1,10 +1,10 @@
 <template>
 	<view>
-		<view v-if="loading==false">
+		<view v-if="loading==true"><me-loading></me-loading></view>
+		<view v-else>
 			<single :wx:for="data" wx:for-item="item"  wx:for-index="index" wx:key="note" :info="item.det" @delete="onDelete(index+'')"></single>
 			<view class="safeView"></view>
 		</view>
-		<view v-else><me-loading></me-loading></view>
 		<my-tabbar now=1></my-tabbar>
 	</view>
 </template>
@@ -26,8 +26,6 @@
 			}
 		},
 		onShow(){
-			//加载收藏
-			this.loading=true;
 			const that=this;
 			//时间转化
 			function tansf(utc_datetime) {
@@ -45,6 +43,9 @@
 					console.log('pull_fav ok',res);
 				}
 			});
+		},
+		onHide(){
+			this.loading=true;
 		},
 		methods:{
 			//删除收藏
