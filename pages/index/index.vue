@@ -4,14 +4,14 @@
 		<my-new-user v-if="showNewUser"  @onClickButton="getUser"></my-new-user>
 		<view v-if="showMain" id="mainView">
 			<h1>临时功能区</h1>
-			<p  @click="tmp1">我的收藏</p>
+<!-- 			<p  @click="tmp1">我的收藏</p> -->
 			<p  @click="tmp2">设置</p>
 			<p  @click="tmp3">用户手册</p>
 			<p  @click="tmp4">我的纸条</p>
 			<image :class="boxClass"src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/box.png" @click="onClickBox" mode="aspectFill"></image>
 			<image id="penImgae"src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/pen.png" @click="onClickRelease"></image>
 			<my-tabbar now=0 :able="boxClass=='box'"></my-tabbar>
-			<my-read v-if="showRead" :content="content[0]" @close="closeRead" @onClickBox="onClickReadBox"></my-read>
+			<my-read v-if="showRead" :content="content[0]" ref ="boxerer" @close="closeRead" @onClickBox="onClickReadBox"></my-read>
 		</view>
 	</view>
 </template>
@@ -44,7 +44,7 @@
 			const that=this;
 			//获取消息
 			setInterval(function(){
-				if(that['content'].length<5)
+				if(that['content'].length<1)
 					that.$options.methods.updateContent(that);
 			},500);
 			// 判断是不是老用户
@@ -67,6 +67,25 @@
 						that['showNewUser']=true;
 				},2000);
 			},3000);
+		},
+		onShow() {
+			const that=this;
+			wx.onAccelerometerChange(function(e){
+				console.log(e.x)
+				console.log(e.y)
+				console.log(e.z)
+				if (e.x > 0.8 || e.y > 0.8) {
+					if(that['showRead']==false){
+						that.onClickBox();
+					}else{
+						that.$refs.boxerer.onClickBox();
+						that.onClickReadBox();
+					}
+				}
+			})
+		},
+		onHide() {
+			wx.offAccelerometerChange()
 		},
 		methods: {
 			//用户信息
@@ -99,6 +118,7 @@
 			},
 			//摇箱子
 			onClickBox(){
+				console.log("onClickBox")
 				const that=this;
 				if(that['boxClass']!='box')
 					return ;
@@ -114,6 +134,7 @@
 			},
 			//点击read的箱子
 			onClickReadBox(that){
+				console.log("onClickReadBox")
 				let _that=that;
 				if(typeof(that)=='undefined')
 					_that=this;
@@ -151,11 +172,11 @@
 					url:'/pages/release/release'
 				})
 			},
-			tmp1(){
-				uni.navigateTo({
-					url:'/pages/myFavorite/myFavorite'
-				})
-			},
+			// tmp1(){
+			// 	uni.navigateTo({
+			// 		url:'/pages/myFavorite/myFavorite'
+			// 	})
+			// },
 			tmp2(){
 				uni.navigateTo({
 					url:'/pages/setting/setting'

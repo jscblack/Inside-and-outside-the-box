@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import App from './App'
+import myTabbar from './components/myTabbar.vue'
+
+Vue.component('my-tabbar', myTabbar)
 
 Vue.config.productionTip = false
 

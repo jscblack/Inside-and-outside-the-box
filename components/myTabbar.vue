@@ -1,8 +1,9 @@
 <template name="myTabbar">
 	<view>
 		<view class="main">
-			<image class="world" src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/world.jpg" @click="onClick0"></image>
-			<image class="user" src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/user.png" @click="onClick1"></image>
+			<image class="world" :src="worldSrc" @click="onClick0"></image>
+			<image class="fav" :src="favSrc" @click="onClick1"></image>
+			<image class="person" :src="personSrc" @click="onClick2"></image>
 		</view>
 	</view>
 </template>
@@ -20,9 +21,20 @@
 				default:true
 			}
 	},
+	created() {
+		if(this['now']==0){
+			this['worldSrc']="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/worlds.svg";
+		}else if(this['now']==1){
+			this['favSrc']="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/favs.svg";
+		}else if(this['now']==2){
+			this['personSrc']="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/persons.svg";
+		}
+	},
     data() {
 		return {
-			
+			worldSrc:"https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/world.svg",
+			favSrc:"https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/fav.svg",
+			personSrc:"https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/person.svg"
 		};
     },
 	methods:{
@@ -37,6 +49,13 @@
 			if(this['now']==1||this['able']==false)
 				return ;
 			uni.switchTab({
+				url:'/pages/myFavorite/myFavorite'
+			})
+		},
+		onClick2(){
+			if(this['now']==2||this['able']==false)
+				return ;
+			uni.switchTab({
 				url:'/pages/me/me'
 			})
 		}
@@ -46,26 +65,33 @@
 
 <style scoped> 
 	.main{
-		width: 400upx;
+		width: 500upx;
 		height: 100upx;
 		position: fixed;
 		left: 50%;
-		margin-left: -200upx;
+		margin-left: -250upx;
 		top: 85%;
 		border: 4upx solid #000000;
 		border-radius: 200upx;
 		
 	}
 	.world{
-		margin-left: 80upx;
+		margin-left: 50upx;
 		margin-right: 40upx;
 		margin-top: 10upx;
 		height: 80upx;
 		width: 80upx;
 	}
-	.user{
-		margin-right: 80upx;
+	.fav{
 		margin-left: 40upx;
+		margin-right: 40upx;
+		margin-top: 10upx;
+		height: 80upx;
+		width: 80upx;
+	}
+	.person{
+		margin-left: 40upx;
+		margin-right: 50upx;
 		margin-top: 10upx;
 		height: 80upx;
 		width: 80upx;

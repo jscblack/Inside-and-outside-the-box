@@ -63,6 +63,9 @@
 	    }, {
 	        "pagePath": "pages/me/me",
 	        "text": "小窝"
+	    },{
+	        "pagePath": "pages/myFavorite/myFavorite",
+	        "text": "喜欢"
 	    }]
 	},
 	"globalStyle": {

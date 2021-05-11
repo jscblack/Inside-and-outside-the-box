@@ -14,7 +14,7 @@
 			/>
 		</view>
 		<view v-else><me-loading></me-loading></view>
-		<my-tabbar now=1></my-tabbar>
+		<my-tabbar now=2></my-tabbar>
 	</view>
 </template>
 

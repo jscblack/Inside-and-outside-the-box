@@ -1,18 +1,23 @@
 <template>
 	<view>
-		<van-loading v-if="loading==true" class="load" type="spinner" color="#000000" size="2rem" />
 		<view v-if="loading==false">
 			<single :wx:for="data" wx:for-item="item"  wx:for-index="index" wx:key="note" :info="item.det" @delete="onDelete(index+'')"></single>
 			<view class="safeView"></view>
 		</view>
+		<view v-else><me-loading></me-loading></view>
+		<my-tabbar now=1></my-tabbar>
 	</view>
 </template>
 
 <script>
+	import myTabbar from '../../components/myTabbar.vue'
 	import single from '../../components/single.vue'
+	import meLoading from '../../components/meLoading.vue'
 	export default {
 		components: {
-			single
+			myTabbar,
+			single,
+			meLoading
 		},
 		data(){
 			return{
@@ -20,8 +25,9 @@
 				data:[]
 			}
 		},
-		onLoad(){
+		onShow(){
 			//加载收藏
+			this.loading=true;
 			const that=this;
 			//时间转化
 			function tansf(utc_datetime) {
