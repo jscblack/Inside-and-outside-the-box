@@ -48,8 +48,14 @@
 		onClick1(){
 			if(this['now']==1||this['able']==false)
 				return ;
+			// var page = getCurrentPages().pop();
+			// if (page.$page.fullPath == '/pages/myFavorite/myFavorite'){
+			// 	page.destroy();
+			// 	// page.onLoad();
+			// }
+			// console.log(page.$page.fullPath)
 			uni.switchTab({
-				url:'/pages/myFavorite/myFavorite'
+				url:'/pages/myFavorite/myFavorite',
 			})
 		},
 		onClick2(){

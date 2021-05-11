@@ -56,7 +56,7 @@
 			}
 		},
 		onLoad(){
-			
+			wx.showNavigationBarLoading();
 			let that = this;
 			console.log("loading me")
 			wx.cloud.callFunction({
@@ -65,6 +65,7 @@
 					console.log(res);
 					that.avatarUrl=res.result.data._favicon;
 					that.nickName=res.result.data._nickname;
+					wx.hideNavigationBarLoading();
 					that.loading=false;
 				},
 			});

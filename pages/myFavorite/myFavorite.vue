@@ -25,7 +25,11 @@
 				data:[]
 			}
 		},
-		onShow(){
+		onLoad(){
+			console.log('fav load');
+		},
+		onLoad() {
+			wx.showNavigationBarLoading()
 			const that=this;
 			//时间转化
 			function tansf(utc_datetime) {
@@ -39,16 +43,45 @@
 					that['data']=res.result.data;
 					for(const index in that['data'])
 						that['data'][index].det.cre_time=tansf(that['data'][index].det.cre_time);
-					
 					setTimeout(()=>{
+						wx.hideNavigationBarLoading()
 						that['loading']=false;
 					},100);
 					console.log('pull_fav ok',res);
 				}
 			});
 		},
+		onShow(){
+			console.log("showed");
+			wx.showNavigationBarLoading()
+			const that=this;
+			//时间转化
+			function tansf(utc_datetime) {
+				const time=new Date(utc_datetime);
+				return time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDay()+' '+time.getHours()+':'+time.getMinutes()+':'+time.getSeconds();
+			}
+			wx.cloud.callFunction({
+				name:'pull_fav',
+				data:{},
+				success:function(res){
+					that['data']=res.result.data;
+					for(const index in that['data'])
+						that['data'][index].det.cre_time=tansf(that['data'][index].det.cre_time);
+						setTimeout(()=>{
+							wx.hideNavigationBarLoading()
+						},100);
+					console.log('pull_fav ok',res);
+				}
+			});
+		},
 		onHide(){
-			this.loading=true;
+			console.log("hided");
+			// let page= getCurrentPages().pop();
+			// page.onUnload();
+		},
+		onUnload(){
+			
+			console.log("unloaded");
 		},
 		methods:{
 			//删除收藏

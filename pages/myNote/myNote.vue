@@ -23,6 +23,7 @@
 			}
 		},
 		onLoad() {
+			wx.showNavigationBarLoading()
 			const that=this;
 			//时间转化
 			function tansf(utc_datetime) {
@@ -46,6 +47,7 @@
 							that['data'][index]=tmpObj;
 						}
 						setTimeout(()=>{
+							wx.hideNavigationBarLoading()
 							that['loading']=false;
 						},400);
 					}
@@ -55,6 +57,7 @@
 		methods: {
 			//删除纸条
 			onDelete(indexS){
+				wx.showNavigationBarLoading()
 				const that=this;
 				const index=parseInt(indexS);
 				wx.cloud.callFunction({
@@ -69,6 +72,7 @@
 						console.log('delete_content fail',err);
 					}
 				});
+				wx.hideNavigationBarLoading()
 				that[`data`].splice(index, 1);
 			}
 		}
