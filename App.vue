@@ -7,7 +7,7 @@
 			  env: envId,
 			  traceUser: true
 			});
-			Vue.prototype.db=wx.cloud.database({env:envId});
+			//Vue.prototype.db=wx.cloud.database({env:envId});
 		},
 		onShow: function() {
 			console.log('App Show')

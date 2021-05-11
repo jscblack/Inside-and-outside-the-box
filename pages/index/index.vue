@@ -4,7 +4,7 @@
 		<my-new-user v-if="showNewUser"  @onClickButton="getUser"></my-new-user>
 		<view v-if="showMain" id="mainView">
 			<image :class="boxClass"src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/box.png" @click="onClickBox" mode="aspectFill"></image>
-			<image id="penImgae"src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/pen.png" @click="onClickRelease"></image>
+			<image id="penImgae"src="cloud://meet-the-world-2g7kshiy287c49fe.6d65-meet-the-world-2g7kshiy287c49fe-1305360411/static/image/pen.svg" @click="onClickRelease"></image>
 			<my-tabbar now=0 :able="boxClass=='box'"></my-tabbar>
 			<my-read v-if="showRead" :content="content[0]" ref ="boxerer" @close="closeRead" @onClickBox="onClickReadBox"></my-read>
 		</view>
@@ -39,7 +39,7 @@
 			const that=this;
 			//获取消息
 			setInterval(function(){
-				if(that['content'].length<1)
+				if(that['content'].length<5)
 					that.$options.methods.updateContent(that);
 			},500);
 			// 判断是不是老用户
@@ -225,10 +225,10 @@
 		animation: shaking 0.3s linear infinite;
 	}
 	#penImgae{
-		width: 100upx;
-		height: 100upx;
+		width: 120upx;
+		height: 120upx;
 		position: fixed;
-		left: 80%;
+		left: 72%;
 		top: 65%;
 	}
 </style>

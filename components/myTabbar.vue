@@ -71,7 +71,7 @@
 		left: 50%;
 		margin-left: -250upx;
 		top: 85%;
-		border: 4upx solid #000000;
+		border: 2upx solid #000000;
 		border-radius: 200upx;
 		background-color: #FFFFFF;
 		

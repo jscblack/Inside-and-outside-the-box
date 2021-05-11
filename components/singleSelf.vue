@@ -79,6 +79,19 @@
 		onClickLock(){
 			const that=this;
 			//调用后端
+			console.log(that['info'])
+			wx.cloud.callFunction({
+				name:'alter_note',
+				data:{
+					note_id:that['info']._id,
+				},
+				success:function(res){
+					console.log('alter_note success',res);
+				},
+				fail:function(err){
+					console.log('alter_note fail',err);
+				}
+			});
 			//...
 			if(that['lockType'].type==0){
 				that['lockType'].url='https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/locked.png'

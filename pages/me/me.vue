@@ -1,6 +1,6 @@
 <!--
  * @Author       : Gehrychiang
- * @LastEditTime : 2021-05-11 17:21:56
+ * @LastEditTime : 2021-05-11 14:30:20
  * @Website      : www.yilantingfeng.site
  * @E-mail       : gehrychiang@aliyun.com
  * @ProbTitle    : (记得补充题目标题)
@@ -11,7 +11,7 @@
 			<view v-if="loading==false">
 			<view class="avaterField">
 				<van-row>
-				  <van-col span="6" offset="3">
+				  <van-col span="4" offset="3">
 					  <van-image
 						round
 						fit="cover"
@@ -19,9 +19,8 @@
 						height="5rem"
 						:src="avatarUrl"
 					  />
-					 
 				  </van-col>
-				  <van-col span="7" offset="3">
+				  <van-col span="14" offset="3">
 					   <view class="userNameField">{{nickName}}</view>
 				  </van-col>
 				</van-row>
@@ -31,7 +30,7 @@
 <!-- 				<van-cell title="ㅤ我的收藏" icon="like-o" is-link url="/pages/myFavorite/myFavorite" size="large" /> -->
 			</van-cell-group>
 			<van-cell-group title="ㅤ">
-				<van-cell title="ㅤ说明" icon="question-o" is-link url="/pages/manual/manual" size="large" />
+				<van-cell title="ㅤ指南" icon="question-o" is-link url="/pages/manual/manual" size="large" />
 				<van-cell title="ㅤ设置" icon="setting-o" is-link url="/pages/setting/setting" size="large" />
 			</van-cell-group>
 		</view>
@@ -82,7 +81,7 @@
 <style scoped>
 	.userNameField{
 		position: fixed;
-		top: 9%;
+		top: 10%;
 		font-size: 60rpx;
 		text-align: center;
 		

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<van-loading v-if="loading==true" class="load" type="spinner" color="#000000" size="2rem" />
+		<view v-if="loading==true"><me-loading></me-loading></view>
 		<view v-if="loading==false">
 			<single-self :wx:for="data" wx:for-item="item"  wx:for-index="index" wx:key="key" :info="item.content" @delete="onDelete(index+'')"></single-Self>
 			<view class="safeView"></view>
@@ -10,8 +10,10 @@
 
 <script>
 	import singleSelf from '../../components/singleSelf.vue'
+	import meLoading from '../../components/meLoading.vue'
 	export default {
 		components: {
+			meLoading,
 			singleSelf
 		},
 		data() {
@@ -43,7 +45,9 @@
 							};
 							that['data'][index]=tmpObj;
 						}
-						that['loading']=false;
+						setTimeout(()=>{
+							that['loading']=false;
+						},400);
 					}
 				}
 			});

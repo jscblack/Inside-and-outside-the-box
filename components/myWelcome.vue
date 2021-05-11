@@ -63,7 +63,7 @@
 		margin-left: -100upx;
 		top: 60%;
 		left: 115%;
-		animation: shake 0.3s linear infinite,boxMove 2s linear;
+		animation: shake 0.5s linear infinite,boxMove 4s linear;
 	}
 	.footer{
 		width: 600upx;

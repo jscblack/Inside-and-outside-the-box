@@ -6,6 +6,7 @@
         name="context"
         v-model="context"
         maxlength="2000"
+		placeholder="今天有什么想要分享的事情吗？QwQ"
       ></textarea>
       <van-uploader
         image-fit="aspectFit"

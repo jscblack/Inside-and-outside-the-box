@@ -1,18 +1,11 @@
-<!--
- * @Author       : Gehrychiang
- * @LastEditTime : 2021-05-11 17:22:51
- * @Website      : www.yilantingfeng.site
- * @E-mail       : gehrychiang@aliyun.com
- * @ProbTitle    : (记得补充题目标题)
--->
 <template>
 	<view>
 		<view v-if="loading==true"><me-loading></me-loading></view>
-		<view v-else>
+		<view v-if="loading==false">
 			<single :wx:for="data" wx:for-item="item"  wx:for-index="index" wx:key="note" :info="item.det" @delete="onDelete(index+'')"></single>
 			<view class="safeView"></view>
 		</view>
-		<my-tabbar now=1></my-tabbar>
+		<my-tabbar now=1 ></my-tabbar>
 	</view>
 </template>
 
@@ -46,7 +39,10 @@
 					that['data']=res.result.data;
 					for(const index in that['data'])
 						that['data'][index].det.cre_time=tansf(that['data'][index].det.cre_time);
-					that['loading']=false;
+					
+					setTimeout(()=>{
+						that['loading']=false;
+					},100);
 					console.log('pull_fav ok',res);
 				}
 			});
