@@ -1,17 +1,37 @@
+<!--
+ * @Author       : Gehrychiang
+ * @LastEditTime : 2021-05-11 14:30:20
+ * @Website      : www.yilantingfeng.site
+ * @E-mail       : gehrychiang@aliyun.com
+ * @ProbTitle    : (记得补充题目标题)
+-->
 <template>
 	<view>
-		<view v-if="loadingFinished">
-			<van-steps
-			  :steps="content"
-			  :active="active"
-			  direction="vertical"
-			  active-color="#000000"
-			  inactive-color="#000000"
-			  active-icon="clock"
-			  inactive-icon="clock"
-			  custom-class="step-class"
-			  desc-class="step-desc-class"
-			/>
+		<view>
+			<view class="avaterField">
+				<van-row>
+				  <van-col span="6" offset="3">
+					  <van-image
+						round
+						fit="cover"
+						width="5rem"
+						height="5rem"
+						:src="avatarUrl"
+					  />
+				  </van-col>
+				  <van-col span="12" offset="3">
+					  <view class="userNameField">{{nickName}}</view>
+				  </van-col>
+				</van-row>
+			</view>
+			<van-cell-group>
+				<van-cell title="ㅤ我的纸条" icon="orders-o" is-link url="/pages/myNote/myNote" size="large" />
+				<van-cell title="ㅤ我的收藏" icon="like-o" is-link url="/pages/myFavorite/myFavorite" size="large" />
+			</van-cell-group>
+			<van-cell-group title="ㅤ">
+				<van-cell title="ㅤ说明" icon="question-o" is-link url="/pages/manual/manual" size="large" />
+				<van-cell title="ㅤ设置" icon="setting-o" is-link url="/pages/setting/setting" size="large" />
+			</van-cell-group>
 		</view>
 		<view v-else><me-loading></me-loading></view>
 		<my-tabbar now=2></my-tabbar>
@@ -19,78 +39,40 @@
 </template>
 
 <script>
-	import myTabbar from '../../components/myTabbar.vue'
-	import meLoading from '../../components/meLoading.vue'
 	export default {
 		components: {
-			myTabbar,
-			meLoading
 		},
 		data() {
 			return {
-				actice: 1,
-				loadingFinished: false,
-				items: [
-					{
-						index:"1",
-						content:"123"
-					},
-					{
-						index:"2",
-						content:"345"
-					}
-				],
-				content: []
+				avatarUrl:"",
+				nickName:""
 			}
 		},
 		onShow() {
-			this['loadingFinished'] = false;
-			this['content']=[];
-			this.$options.methods.getSelfMessages(this);
-			console.log(this.$options);
+			let that = this;
+			wx.getUserInfo({
+			    success: function (res) {
+			        console.log(res);
+					that['avatarUrl']=res.userInfo.avatarUrl;
+					that['nickName']=res.userInfo.nickName;
+			    }
+			})
 		},
 		methods: {
-			getSelfMessages(that){
-				wx.cloud.callFunction({
-					name:'pull_self',
-					data: {},
-					success:function(res){
-						console.log('[getSelfMessages] ok',res);
-						if(res.result.errCode == 13600){
-							that['loadingFinished'] = true;
-							that.$options.methods.updateData(that,res.result.data);
-						}
-					},
-					fail:function(err){
-						console.log('[getSelfMessages] failed',err);
-					}
-				});
-			},
-			updateData(that,resultData) {
-				console.log(resultData);
-				console.log(resultData.length);
-				for (let id in resultData) {
-					that['content'].push({
-						text:resultData[id].cre_time.replace("T"," ").substr(0,19),
-						desc:resultData[id].note_words,
-						pics:resultData[id].note_pic
-					});
-					console.log(that['content']);
-				}
-				
-			}
+			
 		}
 	}
 </script>
 
-<style>
-	.step-class {
-		overflow: scroll !important;
-		max-height: 980rpx;
-		overflow-y: auto;
-	}
-	.step-desc-class {
-		font-size: 48rpx;
-		margin-bottom: 25rpx;
+<style scoped>
+	.userNameField{
+		position: absolute;
+		top: 13%;
+		font-size: 60rpx;
+		text-align: center;
+	},
+	.avaterField{
+		height: 230rpx;
+		padding-top: 100rpx;
 	}
 </style>
