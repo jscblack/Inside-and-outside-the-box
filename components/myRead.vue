@@ -1,7 +1,7 @@
 <template name="myRead">
 	<view :class="mainClass">
 		<view class="cover" @click="closeRead"></view>
-		<image v-show="boxClass=='box'" class="myReadBkTop" src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/myReadBkTop.png" ></image>
+		<image v-show="boxClass=='box'" class="myReadBkTop" src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/newbktop.png" ></image>
 		<view v-show="boxClass=='box'" class="read">
 			<van-action-sheet :show="showReport" :actions="reportList" cancel-text="点错啦" close-on-click-overlay @cancel="onCancelReport" @select="onSelect" />
 			<view v-show="context!=''" class="author">
@@ -244,17 +244,17 @@
 		z-index: 2;
 	}
 	.myReadBkTop{
-		animation: load 0.5s linear;
-		width: 610upx;
+		//animation: load 0.5s linear;
+		width: 608.5upx;
 		height: 50upx;
 		position: absolute;
-		top: 100upx;
+		top: 102upx;
 		left: 50%;
 		margin-left: -305upx;
 		z-index: 2;
 	}
 	.read{
-		animation: load 0.5s linear;
+		//animation: load 0.5s linear;
 		width: 550upx;
 		min-height: 100upx;
 		position: absolute;
@@ -262,7 +262,7 @@
 		left: 50%;
 		margin-left: -305upx;
 		margin-bottom: 275upx;
- 		background-image: url('https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/myReadBk.png');
+ 		background-image: url('https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/newbk.png');
 		z-index: 2;
 		text-align: center;
 		padding: 30upx;
@@ -298,7 +298,7 @@
 	.oneImage{
 		width: 525upx;
 		height: 525upx;
-		margin: 5upx;
+		margin: 15upx;
 	}
 	.twoImage{
 		width: 265upx;

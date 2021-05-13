@@ -39,7 +39,7 @@
 			const that=this;
 			//获取消息
 			setInterval(function(){
-				if(that['content'].length<5)
+				if(that['content'].length<0)
 					that.$options.methods.updateContent(that);
 			},500);
 			// 判断是不是老用户
