@@ -4,13 +4,11 @@
 			<view class="author">
 				<view class="authorInfo">
 					<image style="height: 1.5rem; width: 1.5rem;" :src="lockType.url" @click="onClickLock" />
-					<image class="favicon" :src="info.cre_user_favicon" mode="aspectFill" />
-					<label class="nickName">{{info.cre_user}}</label>
+					<p style="text-align: left; margin-left: 10rpx;">{{info.cre_time}}</p>
 				</view>
 				<van-icon name="delete" size="30" @click="onClickCollection"/>
 			</view>
-			<p style="text-align: left;">{{info.cre_time}}</p>
-			<p class="context">{{info.note_words}}</p>
+			<p class="context" v-text="info.note_words"></p>
 			<view style="text-align: left;">
 				<image :class="imageClass" :wx:for="info.note_pic" wx:key="key" wx:for-item="item" :src="item" mode="aspectFill" @click="onClickIamge(item+'')" />
 			</view>

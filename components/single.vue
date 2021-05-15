@@ -3,12 +3,12 @@
 		<view class="mainWindow">
 			<view class="author">
 				<view class="authorInfo">
-					<image class="favicon" :src="info.cre_user_favicon" mode="aspectFill" /><label class="nickName">{{info.cre_user}}</label>
+					<image class="favicon" :src="info.cre_user_favicon" mode="aspectFill" /><label class="nickName" v-text="info.cre_user"></label>
 				</view>
 				<van-icon :name="collectionName" size="30" @click="onClickCollection"/>
 			</view>
 			<p style="text-align: left;">{{info.cre_time}}</p>
-			<p class="context">{{info.note_words}}</p>
+			<p class="context" v-text="info.note_words"></p>
 			<view style="text-align: left;">
 				<image :class="imageClass" :wx:for="info.note_pic" wx:key="key" wx:for-item="item" :src="item" mode="aspectFill" @click="onClickIamge(item+'')" />
 			</view>

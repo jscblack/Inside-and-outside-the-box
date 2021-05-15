@@ -7,12 +7,12 @@
 			<view v-show="context!=''" class="author">
 				<label @click="toReport">举报</label>
 				<view class="authorInfo">
-					<image class="favicon" :src="authorInfo.favicon" mode="aspectFill" /><label class="nickName">{{authorInfo.nickName}}</label>
+					<image class="favicon" :src="authorInfo.favicon" mode="aspectFill" /><label class="nickName" v-text="authorInfo.nickName"></label>
 				</view>
 				<van-icon style="text-align: right;" v-show="context!=''" :name="collectionName" size="30" @click="onClickCollection"/>
 			</view>
 			<p style="text-align: center; font-weight: 500;">{{time}}</p>
-			<p style="margin-top: 20upx;">{{context}}</p>
+			<p style="margin-top: 20upx;" v-text="context"></p>
 			<view  style="text-align: left;">
 				<image :wx:for="image" wx:key="key" wx:for-item="item" :class="imageClass" :src="item" mode="aspectFill" @click="onClickIamge(item+'')" />
 			</view>

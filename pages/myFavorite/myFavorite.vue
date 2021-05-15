@@ -5,7 +5,9 @@
 			<single :wx:for="data" wx:for-item="item"  wx:for-index="index" wx:key="note" :info="item.det" @delete="onDelete(index+'')"></single>
 			<view class="safeView"></view>
 		</view>
-		<my-tabbar now=1 ></my-tabbar>
+		<view :class="tabBarClass">
+			<my-tabbar  now=1 :able="tabBarClass!='setdown'"></my-tabbar>
+		</view>
 	</view>
 </template>
 
@@ -22,13 +24,11 @@
 		data(){
 			return{
 				loading:true,
-				data:[]
+				data:[],
+				tabBarClass:'normal'
 			}
 		},
-		onLoad(){
-			console.log('fav load');
-		},
-		onLoad() {
+		onShow(){
 			wx.showNavigationBarLoading()
 			const that=this;
 			//时间转化
@@ -47,41 +47,15 @@
 						wx.hideNavigationBarLoading()
 						that['loading']=false;
 					},100);
-					console.log('pull_fav ok',res);
 				}
 			});
 		},
-		onShow(){
-			console.log("showed");
-			wx.showNavigationBarLoading()
+		onPageScroll(ev){
 			const that=this;
-			//时间转化
-			function tansf(utc_datetime) {
-				const time=new Date(utc_datetime);
-				return time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDay()+' '+time.getHours()+':'+time.getMinutes()+':'+time.getSeconds();
-			}
-			wx.cloud.callFunction({
-				name:'pull_fav',
-				data:{},
-				success:function(res){
-					that['data']=res.result.data;
-					for(const index in that['data'])
-						that['data'][index].det.cre_time=tansf(that['data'][index].det.cre_time);
-						setTimeout(()=>{
-							wx.hideNavigationBarLoading()
-						},100);
-					console.log('pull_fav ok',res);
-				}
-			});
-		},
-		onHide(){
-			console.log("hided");
-			// let page= getCurrentPages().pop();
-			// page.onUnload();
-		},
-		onUnload(){
-			
-			console.log("unloaded");
+			if(ev.scrollTop==0)
+				that.tabBarClass='setup';
+			else
+				that.tabBarClass='setdown';
 		},
 		methods:{
 			//删除收藏
@@ -108,10 +82,23 @@
 </script>
 
 <style scoped>
-	.load{
-		left: 50%;
-		top: 40%;
-		margin-left: -1rem;
-		position: absolute;
+	@keyframes load{
+		0% { opacity: 0.0 ;}
+		100% {opacity: 1.0 ; }
+	}
+	@keyframes distory{
+		0% { opacity: 1.0 ;}
+		100% {opacity: 0 ; }
+	}
+	.normal{
+
+	}
+	.setup{
+		animation: load 0.5s linear;
+		opacity: 1.0 ;
+	}
+	.setdown{
+		animation: distory 0.5s linear;
+		opacity: 0 ;
 	}
 </style>

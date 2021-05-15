@@ -10,9 +10,10 @@
 		<view>
 			<view v-if="loading==false">
 			<view class="avaterField">
-				<van-row>
+				<view style="display: flex;align-items: center;justify-content:left">
 				  <van-col span="4" offset="3">
 					  <van-image
+					  style="margin-left: 50rpx;"
 						round
 						fit="cover"
 						width="5rem"
@@ -21,9 +22,9 @@
 					  />
 				  </van-col>
 				  <van-col span="14" offset="3">
-					   <view class="userNameField">{{nickName}}</view>
+					   <p class="userNameField">{{nickName}}</p>
 				  </van-col>
-				</van-row>
+				</view>
 			</view>
 			<van-cell-group>
 				<van-cell title="ㅤ我的纸条" icon="orders-o" is-link url="/pages/myNote/myNote" size="large" />
@@ -81,11 +82,10 @@
 
 <style scoped>
 	.userNameField{
-		position: fixed;
-		top: 10%;
-		font-size: 60rpx;
+		display: block;
+		font-size: 40rpx; 
+		width: 200rpx;
 		text-align: center;
-		
 	},
 	.avaterField{
 		height: 230rpx;
