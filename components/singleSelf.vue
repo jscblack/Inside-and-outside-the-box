@@ -18,6 +18,7 @@
 </template>
 
 <script>
+	import Vue from 'vue'
   export default {
     name:"singleSelf",
 	props: {
@@ -55,6 +56,7 @@
 		//浏览图片
 		onClickIamge(now){
 			const that=this;
+			Vue.prototype.$imgHide.status=true;
 			wx.previewImage({
 			  current: now,
 			  urls: that['info'].note_pic

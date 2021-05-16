@@ -1,5 +1,10 @@
 <script>
 	export default {
+		data() {
+			return {
+				//imgHide:false,
+			}
+		},
 		onLaunch: function() {
 			console.log('App Launch');
 			let envId='meet-the-world-2g7kshiy287c49fe';

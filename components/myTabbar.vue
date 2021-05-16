@@ -41,29 +41,64 @@
 		onClick0(){
 			if(this['now']==0||this['able']==false)
 				return ;
-			uni.switchTab({
-				url:'/pages/index/index'
+			
+			var page = getCurrentPages().pop();
+			console.log(page.$page.fullPath);
+			console.log(page.data.showTrans)
+			page.data.showTrans=false;
+			page.setData({
+				showTrans:false
 			})
+			console.log(page.data.showTrans)
+			
+			setTimeout(()=>{
+				uni.switchTab({
+					url:'/pages/index/index'
+				})
+			},600);
 		},
 		onClick1(){
 			if(this['now']==1||this['able']==false)
 				return ;
-			// var page = getCurrentPages().pop();
-			// if (page.$page.fullPath == '/pages/myFavorite/myFavorite'){
-			// 	page.destroy();
-			// 	// page.onLoad();
-			// }
-			// console.log(page.$page.fullPath)
-			uni.switchTab({
-				url:'/pages/myFavorite/myFavorite',
+				
+			var page = getCurrentPages().pop();
+			console.log(page.$page.fullPath);
+			console.log(page.data.showTrans)
+			page.data.showTrans=false;
+			page.setData({
+				showTrans:false
 			})
+			console.log(page.data.showTrans)
+			setTimeout(()=>{
+				uni.switchTab({
+					url:'/pages/myFavorite/myFavorite'
+				})
+			},600);
+			
+			
+			// uni.reLaunch({
+			// 	url:'/pages/myFavorite/myFavorite',
+			// })
 		},
 		onClick2(){
 			if(this['now']==2||this['able']==false)
 				return ;
-			uni.switchTab({
-				url:'/pages/me/me'
+				
+			var page = getCurrentPages().pop();
+			console.log(page.$page.fullPath);
+			console.log(page.data.showTrans)
+			page.data.showTrans=false;
+			page.setData({
+				showTrans:false
 			})
+			console.log(page.data.showTrans)
+			setTimeout(()=>{
+				uni.switchTab({
+					url:'/pages/me/me'
+				})
+			},600);
+			
+			
 		}
 	}
   }

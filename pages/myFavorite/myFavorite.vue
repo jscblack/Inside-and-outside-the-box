@@ -1,12 +1,21 @@
 <template>
+
+
 	<view>
-		<view v-if="loading==true"><me-loading></me-loading></view>
-		<view v-if="loading==false">
-			<single :wx:for="data" wx:for-item="item"  wx:for-index="index" wx:key="note" :info="item.det" @delete="onDelete(index+'')"></single>
-			<view class="safeView"></view>
-		</view>
+		<van-transition :show="loading==true&&showTrans==true" name="fade">
+			<view v-if="loading==true">
+				<me-loading></me-loading>
+			</view>
+		</van-transition>
+		<van-transition :show="loading==false&&showTrans==true" name="fade">
+			<view v-if="loading==false">
+				<single :wx:for="data" wx:for-item="item" wx:for-index="index" wx:key="note" :info="item.det"
+					@delete="onDelete(index+'')"></single>
+				<view class="safeView"></view>
+			</view>
+		</van-transition>
 		<view :class="tabBarClass">
-			<my-tabbar  now=1 :able="tabBarClass!='setdown'"></my-tabbar>
+			<my-tabbar now=1 :able="tabBarClass!='setdown'"></my-tabbar>
 		</view>
 	</view>
 </template>
@@ -15,64 +24,94 @@
 	import myTabbar from '../../components/myTabbar.vue'
 	import single from '../../components/single.vue'
 	import meLoading from '../../components/meLoading.vue'
+	import Vue from 'vue'
 	export default {
 		components: {
 			myTabbar,
 			single,
 			meLoading
 		},
-		data(){
-			return{
-				loading:true,
-				data:[],
-				tabBarClass:'normal'
+		data() {
+			return {
+				loading: true,
+				data: [],
+				tabBarClass: 'normal',
+				curpos: 0,
+				showTrans: false
 			}
 		},
-		onShow(){
+		onShow() {
+			//console.log(this['showTrans'])
+			if(Vue.prototype.$imgHide.status==true){
+				console.log('from imgHide')
+				Vue.prototype.$imgHide.status=false;
+				return;
+			}
+			this['showTrans'] = true;
 			wx.showNavigationBarLoading()
-			const that=this;
+			const that = this;
 			//时间转化
 			function tansf(utc_datetime) {
-				const time=new Date(utc_datetime);
-				return time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDay()+' '+time.getHours()+':'+time.getMinutes()+':'+time.getSeconds();
+				const time = new Date(utc_datetime);
+				return time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDay() + ' ' + time.getHours() +
+					':' + time.getMinutes() + ':' + time.getSeconds();
 			}
 			wx.cloud.callFunction({
-				name:'pull_fav',
-				data:{},
-				success:function(res){
-					that['data']=res.result.data;
-					for(const index in that['data'])
-						that['data'][index].det.cre_time=tansf(that['data'][index].det.cre_time);
-					setTimeout(()=>{
-						wx.hideNavigationBarLoading()
-						that['loading']=false;
-					},100);
+				name: 'pull_fav',
+				data: {},
+				success: function(res) {
+					that['data'] = res.result.data;
+					for (const index in that['data'])
+						that['data'][index].det.cre_time = tansf(that['data'][index].det.cre_time);
+					wx.hideNavigationBarLoading()
+					that['loading'] = false;
+					setTimeout(() => {
+						
+						that['showTrans'] = true;
+					}, 250);
 				}
 			});
 		},
-		onPageScroll(ev){
-			const that=this;
-			if(ev.scrollTop==0)
-				that.tabBarClass='setup';
+		onPageScroll(ev) {
+			const that = this;
+			if (ev.scrollTop < this.curpos||ev.scrollTop==0)
+				that.tabBarClass = 'setup';
 			else
-				that.tabBarClass='setdown';
+				that.tabBarClass = 'setdown';
+			this.curpos = ev.scrollTop
 		},
-		methods:{
+		onHide() {
+			//console.log('fuck'+Vue.prototype.$imgHide.status)
+			if(Vue.prototype.$imgHide.status==true){
+				console.log('from imgHide')
+				return;
+			}
+			this['showTrans'] = false;
+			
+			// var page = getCurrentPages().pop();
+			// console.log(page.$page.fullPath);
+			// page.data.showTrans=false;
+			// page.setData({
+			// 	showTrans:false
+			// })
+			console.log('fav'+this['showTrans'])
+		},
+		methods: {
 			//删除收藏
-			onDelete(indexS){
-				const that=this;
-				const index=parseInt(indexS);
+			onDelete(indexS) {
+				const that = this;
+				const index = parseInt(indexS);
 				wx.cloud.callFunction({
-					name:'alter_fav',
-					data:{
-						note_id:that['data'][index].det._id,
-						oper:2
+					name: 'alter_fav',
+					data: {
+						note_id: that['data'][index].det._id,
+						oper: 2
 					},
-					success:function(res){
-						console.log('alter_fav success',res);
+					success: function(res) {
+						console.log('alter_fav success', res);
 					},
-					fail:function(err){
-						console.log('alter_fav fail',err);
+					fail: function(err) {
+						console.log('alter_fav fail', err);
 					}
 				});
 				that[`data`].splice(index, 1);
@@ -82,23 +121,35 @@
 </script>
 
 <style scoped>
-	@keyframes load{
-		0% { opacity: 0.0 ;}
-		100% {opacity: 1.0 ; }
-	}
-	@keyframes distory{
-		0% { opacity: 1.0 ;}
-		100% {opacity: 0 ; }
-	}
-	.normal{
+	@keyframes load {
+		0% {
+			opacity: 0.0;
+		}
 
+		100% {
+			opacity: 1.0;
+		}
 	}
-	.setup{
+
+	@keyframes distory {
+		0% {
+			opacity: 1.0;
+		}
+
+		100% {
+			opacity: 0;
+		}
+	}
+
+	.normal {}
+
+	.setup {
 		animation: load 0.5s linear;
-		opacity: 1.0 ;
+		opacity: 1.0;
 	}
-	.setdown{
+
+	.setdown {
 		animation: distory 0.5s linear;
-		opacity: 0 ;
+		opacity: 0;
 	}
 </style>

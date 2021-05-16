@@ -1,10 +1,12 @@
 <template>
 	<view>
 		<view v-if="loading==true"><me-loading></me-loading></view>
+		<van-transition :show="showTrans==true&&loading==false" name="fade">
 		<view v-if="loading==false">
 			<single-self :wx:for="data" wx:for-item="item"  wx:for-index="index" wx:key="key" :info="item.content" @delete="onDelete(index+'')"></single-Self>
 			<view class="safeView"></view>
 		</view>
+		</van-transition>
 	</view>
 </template>
 
@@ -19,6 +21,7 @@
 		data() {
 			return {
 				loading:true,
+				showTrans:false,
 				data:[]
 			}
 		},
@@ -48,7 +51,9 @@
 						}
 						setTimeout(()=>{
 							wx.hideNavigationBarLoading()
+							that['showTrans']=true;
 							that['loading']=false;
+							
 						},400);
 					}
 				}
