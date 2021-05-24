@@ -8,10 +8,24 @@
 			</view>
 		</van-transition>
 		<van-transition :show="loading==false&&showTrans==true" name="fade">
-			<view v-if="loading==false">
+			<view v-if="loading==false&&hasFav==true">
 				<single :wx:for="data" wx:for-item="item" wx:for-index="index" wx:key="note" :info="item.det"
 					@delete="onDelete(index+'')"></single>
 				<view class="safeView"></view>
+			</view>
+			<view v-if="loading==false&&hasFav==false">
+				
+				<image src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/box.png"  mode="aspectFill" style="height: 480upx;width: 480upx;margin-left: 130upx;margin-top: 130upx;"></image>
+				<view class="noFav" style="margin-top: 200rpx;">
+					糟糕，你怎么一条收藏的小纸条都没有呢？
+				</view>
+				<view class="noFav">
+					......
+				</view>
+				<view  class="noFav" style="margin-top: 18rpx;">
+					快去收藏一些吧
+				</view>
+			
 			</view>
 		</van-transition>
 		<view :class="tabBarClass">
@@ -37,7 +51,8 @@
 				data: [],
 				tabBarClass: 'normal',
 				curpos: 0,
-				showTrans: false
+				showTrans: false,
+				hasFav: false,
 			}
 		},
 		onShow() {
@@ -61,12 +76,12 @@
 				data: {},
 				success: function(res) {
 					that['data'] = res.result.data;
+					that.hasFav=that['data'].length>=1?true:false;
 					for (const index in that['data'])
 						that['data'][index].det.cre_time = tansf(that['data'][index].det.cre_time);
 					wx.hideNavigationBarLoading()
 					that['loading'] = false;
 					setTimeout(() => {
-						
 						that['showTrans'] = true;
 					}, 250);
 				}
@@ -151,5 +166,9 @@
 	.setdown {
 		animation: distory 0.5s linear;
 		opacity: 0;
+	}
+	.noFav{
+		font-size:39rpx;
+		text-align:center;
 	}
 </style>

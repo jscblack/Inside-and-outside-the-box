@@ -6,7 +6,7 @@
         name="context"
         v-model="context"
         maxlength="2000"
-		placeholder="今天有什么想要分享的事情吗？QwQ"
+        placeholder="今天有什么想要分享的事情吗？QwQ"
       ></textarea>
       <van-uploader
         image-fit="aspectFit"
@@ -139,7 +139,17 @@ export default {
       for (const index in that["image"]) {
         if (that["image"][index].status != "uploading") continue;
         //压缩图片并鉴黄
-
+        if (
+          that.$options.methods.getFileType(that["image"][index].url) == "HEIC"
+        ) {
+          that["image"][index].status = "failed";
+          uni.showToast({
+            title: "暂不支持HEIC格式的原图上传",
+            icon: "none",
+            duration: 4000,
+          });
+          continue;
+        }
         if (
           that.$options.methods.getFileType(that["image"][index].url) == "jpg"
         ) {
@@ -287,12 +297,14 @@ export default {
   text-align: left;
   margin: 20upx;
 }
+
 #context {
   text-align: left;
   width: 100%;
   overflow: auto;
   margin-bottom: 30upx;
 }
+
 #submit {
   margin: 30upx auto;
   color: #000000;
