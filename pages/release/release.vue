@@ -13,6 +13,7 @@
         :file-list="image"
         multiple="true"
         @after-read="afterRead"
+        @before-read="beforeRead"
         @delete="onDelete"
         preview-size="100px"
         max-count="9"
@@ -127,6 +128,11 @@ export default {
         },
       });
     },
+    //读取前准备
+    beforeRead(event) {
+      const that = this;
+      console.log(event);
+    },
     //读取到了临时地址并上传到数据库
     afterRead(event) {
       const that = this;
@@ -142,11 +148,53 @@ export default {
         if (
           that.$options.methods.getFileType(that["image"][index].url) == "HEIC"
         ) {
-          that["image"][index].status = "failed";
+          //直接调用接口上传到云端
+          //heic格式一般是直接拍的就不鉴黄了
           uni.showToast({
-            title: "暂不支持HEIC格式的原图上传",
+            title: "正在转换HEIC格式的原图，这不会需要太久",
             icon: "none",
             duration: 4000,
+          });
+          wx.cloud.uploadFile({
+            cloudPath:
+              "tmp/" +
+              that.$options.methods.getRandomFileName(that["image"][index].url),
+            filePath: that["image"][index].url,
+            success: function (res) {
+              wx.cloud.callFunction({
+                name: "uploadHEIC",
+                data: {
+                  heicPath: res.fileID,
+                  targetName: that.$options.methods.getRandomFileNameNonType(
+                    that["image"][index].url
+                  ),
+                },
+                success: function (ret) {
+                  //上传并转码完成
+                  console.log(ret);
+                  that["image"][index].fileID = ret.result.data.fileID;
+                  that["image"][index].url = ret.result.data.tempFileURL;
+                  console.log(that["image"][index].thumb);
+                  that["image"][index].thumb = ret.result.data.tempFileURL;
+                  console.log(that["image"][index].thumb);
+                  that["image"][index].isImage = true;
+                  wx.cloud.callFunction({
+                    name: "update_record",
+                    data: {
+                      cloud_link: ret.data,
+                    },
+                  });
+
+                  that["image"][index].status = "done";
+                },
+                fail: function (err) {
+                  that["image"][index].status = "failed";
+                },
+              });
+            },
+            fail: function (err) {
+              that["image"][index].status = "failed";
+            },
           });
           continue;
         }
@@ -268,6 +316,14 @@ export default {
     onDelete(event) {
       const index = event.detail.index;
       this[`image`].splice(index, 1);
+    },
+    // 随机图片名
+    getRandomFileNameNonType(fileName) {
+      const index = fileName.lastIndexOf(".");
+      const type = fileName.substr(index + 1);
+      const date = new Date();
+      const name = date.getTime() + Math.random().toString(36).substr(2);
+      return name;
     },
     // 随机图片名
     getRandomFileName(fileName) {
