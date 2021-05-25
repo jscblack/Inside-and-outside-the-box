@@ -30,8 +30,9 @@
 			const that=this;
 			//时间转化
 			function tansf(utc_datetime) {
-				const time=new Date(utc_datetime);
-				return time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDay()+' '+time.getHours()+':'+time.getMinutes()+':'+time.getSeconds();
+				const time = new Date(utc_datetime);
+				return time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate() + ' ' + time.getHours() +
+					':' + time.getMinutes() + ':' + time.getSeconds();
 			}
 			wx.cloud.callFunction({
 				name:'pull_self',

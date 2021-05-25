@@ -68,7 +68,7 @@
 			//时间转化
 			function tansf(utc_datetime) {
 				const time = new Date(utc_datetime);
-				return time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDay() + ' ' + time.getHours() +
+				return time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate() + ' ' + time.getHours() +
 					':' + time.getMinutes() + ':' + time.getSeconds();
 			}
 			wx.cloud.callFunction({

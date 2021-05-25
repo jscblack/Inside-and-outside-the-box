@@ -32,7 +32,7 @@
 					</van-cell-group>
 					<van-cell-group title="ㅤ">
 						<van-cell title="ㅤ指南" icon="question-o" is-link url="/pages/manual/manual" size="large" />
-						<van-cell title="ㅤ设置" icon="setting-o" is-link url="/pages/setting/setting" size="large" />
+						<van-cell title="ㅤ设置" icon="setting-o" is-link url="/pages/setting/setting" size="large" @click="onchlickSetting" />
 					</van-cell-group>
 				</view>
 			</van-transition>
@@ -57,6 +57,7 @@
 				nickName: "",
 				loading: true,
 				showTrans: false,
+				flush:false
 			}
 		},
 		onLoad() {
@@ -81,7 +82,26 @@
 		},
 		onShow() {
 			//console.log('imgHide '+this.imgHide);
-			this['showTrans'] = true;
+			const that = this;
+			that['showTrans'] = true;
+			if(that.flush){
+				wx.showNavigationBarLoading();
+				that.flush=false;
+				wx.cloud.callFunction({
+					name: 'get_user',
+					success: function(res) {
+						console.log(res);
+						that.avatarUrl = res.result.data._favicon;
+						that.nickName = res.result.data._nickname;
+						wx.hideNavigationBarLoading()
+						that['loading'] = false;
+						setTimeout(() => {
+							that['showTrans'] = true;
+						}, 250);
+				
+					},
+				});
+			}
 		},
 		onHide() {
 			this['showTrans'] = false;
@@ -95,7 +115,10 @@
 			console.log('me'+this['showTrans'])
 		},
 		methods: {
-			
+			onchlickSetting(){
+				const that=this;
+				that.flush=true;
+			}
 		}
 	}
 </script>

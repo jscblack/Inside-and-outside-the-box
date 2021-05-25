@@ -105,9 +105,10 @@
 			updateContent(that) {
 				function tansf(utc_datetime) {
 					const time = new Date(utc_datetime);
-					return time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDay() + ' ' + time.getHours() +
+					return time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate() + ' ' + time.getHours() +
 						':' + time.getMinutes() + ':' + time.getSeconds();
 				}
+				
 				if (that['content'] == null) {
 					uni.showToast({
 						title: '好像是一张空纸条',
