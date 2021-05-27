@@ -4,6 +4,8 @@
 		<van-transition :show="showTrans==true&&loading==false" name="fade">
 		<view v-if="loading==false">
 			<single-self :wx:for="data" wx:for-item="item"  wx:for-index="index" wx:key="key" :info="item.content" @delete="onDelete(index+'')"></single-Self>
+			<image v-if="hasNote==false" src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/box.png"  mode="aspectFill" style="height: 480upx;width: 480upx;margin-left: 130upx;margin-top: 130upx;"></image>
+			<p v-if="hasNote==false" style="text-align: center;font-size: 50rpx;">空空如也</p>
 			<view class="safeView"></view>
 		</view>
 		</van-transition>
@@ -22,7 +24,8 @@
 			return {
 				loading:true,
 				showTrans:false,
-				data:[]
+				data:[],
+				hasNote:false
 			}
 		},
 		onLoad() {
@@ -38,9 +41,11 @@
 				name:'pull_self',
 				data: {},
 				success:function(res){
-					if(res.result.errCode==13600)
+					if(res.result.errCode==13600||res.result.errCode==13601)
 					{
 						console.log('pull_self ok',res);
+						if(res.result.hasOwnProperty('data'))
+							that.hasNote=true;
 						for(const index in res.result.data)
 						{
 							res.result.data[index].cre_time=tansf(res.result.data[index].cre_time);
@@ -54,7 +59,6 @@
 							wx.hideNavigationBarLoading()
 							that['showTrans']=true;
 							that['loading']=false;
-							
 						},400);
 					}
 				}
@@ -63,7 +67,6 @@
 		methods: {
 			//删除纸条
 			onDelete(indexS){
-				wx.showNavigationBarLoading()
 				const that=this;
 				const index=parseInt(indexS);
 				wx.cloud.callFunction({
@@ -78,8 +81,9 @@
 						console.log('delete_content fail',err);
 					}
 				});
-				wx.hideNavigationBarLoading()
 				that[`data`].splice(index, 1);
+				if(that.data.length==0)
+					that.hasNote=false;
 			}
 		}
 	}

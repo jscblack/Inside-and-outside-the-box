@@ -130,6 +130,8 @@
 					}
 				});
 				that[`data`].splice(index, 1);
+				if(that.data.length==0)
+					that.hasFav=false;
 			}
 		}
 	}
