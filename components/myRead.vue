@@ -220,12 +220,33 @@
 			onSelect(word) {
 				const that = this;
 				//发送后端请求
+				const id=that['content'].data._id;
+				const type=word.detail.name;
+				console.log(id);
+				console.log(type);
+				wx.cloud.callFunction({
+					name: "reportAbuse",
+					data: {
+						noteid: id,
+						abuseType: type,
+					},
+					success: function(res) {
+						uni.showToast({
+							title: '感谢您的举报，我们会尽快核实',
+							icon: 'none',
+							duration: 1200
+						});
+					},
+					fail: function(err) {
+						uni.showToast({
+							title: "举报失败，请稍后再试",
+							icon: "none",
+							duration: 2000,
+						});
+					},
+				})
 				//...
-				uni.showToast({
-					title: '感谢您的举报，我们会尽快核实',
-					icon: 'none',
-					duration: 1200
-				});
+				
 				that['onCancelReport']();
 			}
 		}

@@ -87,19 +87,28 @@
 				},
 				success:function(res){
 					console.log('alter_note success',res);
+					if(res.result.errCode==48002){
+						uni.showToast({
+							title: "该纸条被人多次举报，系统已经自动将其锁定，您可以提交反馈，人工二次复核",
+							icon: "none",
+							duration: 2000,
+						});
+					}else if(res.result.errCode==48000){
+						if(that['lockType'].type==0){
+							that['lockType'].url='https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/locked.png'
+							that['lockType'].type=1;
+						}else{
+							that['lockType'].url='https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/lock.png'
+							that['lockType'].type=0;
+						}
+					}
 				},
 				fail:function(err){
 					console.log('alter_note fail',err);
 				}
 			});
 			//...
-			if(that['lockType'].type==0){
-				that['lockType'].url='https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/locked.png'
-				that['lockType'].type=1;
-			}else{
-				that['lockType'].url='https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/lock.png'
-				that['lockType'].type=0;
-			}
+			
 			wx.hideNavigationBarLoading()
 		}
 	}

@@ -4,8 +4,18 @@
 		<van-transition :show="showTrans==true&&loading==false" name="fade">
 		<view v-if="loading==false">
 			<single-self :wx:for="data" wx:for-item="item"  wx:for-index="index" wx:key="key" :info="item.content" @delete="onDelete(index+'')"></single-Self>
-			<image v-if="hasNote==false" src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/box.png"  mode="aspectFill" style="height: 480upx;width: 480upx;margin-left: 130upx;margin-top: 130upx;"></image>
-			<p v-if="hasNote==false" style="text-align: center;font-size: 50rpx;">空空如也</p>
+			<view v-if="hasNote==false">
+				<image src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/box.png"  mode="aspectFill" style="height: 480upx;width: 480upx;margin-left: 130upx;margin-top: 130upx;"></image>
+				<view class="noFav" style="margin-top: 200rpx;">
+					糟糕，你怎么一条的小纸条都没有写呢？
+				</view>
+				<view class="noFav">
+					......
+				</view>
+				<view  class="noFav" style="margin-top: 18rpx;">
+					快去塞进纸箱里一些吧
+				</view>
+			</view>
 			<view class="safeView"></view>
 		</view>
 		</van-transition>
@@ -95,5 +105,9 @@
 		top: 40%;
 		margin-left: -1rem;
 		position: absolute;
+	}
+	.noFav{
+		font-size:39rpx;
+		text-align:center;
 	}
 </style>
