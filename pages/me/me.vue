@@ -31,7 +31,7 @@
 						<!-- 				<van-cell title="ㅤ我的收藏" icon="like-o" is-link url="/pages/myFavorite/myFavorite" size="large" /> -->
 					</van-cell-group>
 					<van-cell-group title="ㅤ">
-						<van-cell title="ㅤ指南" icon="question-o" is-link url="/pages/manual/manual" size="large" />
+						<van-cell title="ㅤ用户手册" icon="question-o" is-link url="/pages/manual/manual" size="large" />
 						<van-cell title="ㅤ设置" icon="setting-o" is-link url="/pages/setting/setting" size="large" @click="onchlickSetting" />
 					</van-cell-group>
 				</view>
