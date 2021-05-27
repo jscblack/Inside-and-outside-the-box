@@ -1,6 +1,23 @@
 <template>
-	<view>
+	<view class="mainWindow">
 		<image :class="logoClass"src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/box.png" @click="onClickBox" mode="aspectFill"></image>
+		<p class="h1">开发人员</p>
+		<van-divider />
+		- 蒋世超
+		<br />
+		- 陈绍光
+		<br />
+		- 梁智达
+		<br />
+		- 曹传忠
+		<p class="h1">项目源码</p>
+		<van-divider />
+		https://gitee.com/Kadia/Inside-and-outside-the-box
+		<br />
+		<button style="margin-top:5rpx" size="mini" plain=true @click="copyUrl">点击复制</button>
+		<p class="h1">联系我们</p>
+		<van-divider />
+		请通过反馈联系我们<navigator style="color: #1989FA;" url="../feedback/feedback" >点击反馈</navigator>
 	</view>
 </template>
 
@@ -33,7 +50,7 @@
 					setTimeout(function(){
 						that.$data.logoClass="logo";
 						uni.showToast({
-							title:'我再动一动(>ω･* )ﾉ',
+							title:'再动动(>ω･* )ﾉ',
 							icon:'none',
 							duration:1200
 						});
@@ -43,28 +60,23 @@
 					setTimeout(function(){
 						that.$data.logoClass="logo";
 						uni.showToast({
-							title:'可以不要点了么(｡•́︿•̀｡)',
+							title:'不要点了(｡•́︿•̀｡)',
 							icon:'none',
 							duration:1200
 						});
 					}, 400);
-				}else if(this.$data.clickTimes==3){
-					this.$data.logoClass="logoShaking";
-					setTimeout(function(){
-						that.$data.logoClass="logo";
+				}else if(this.$data.clickTimes>=3){
 						uni.showToast({
-							title:'不许再点了！(▼ヘ▼#)',
-							icon:'none',
-							duration:1200
-						});
-					}, 800);
-				}else if(this.$data.clickTimes>=4){
-						uni.showToast({
-							title:'不动了，不动了，说什么也不动了(｀⌒´メ)',
+							title:'(｀⌒´メ)',
 							icon:'none',
 							duration:1200
 						});
 					}
+				},
+				copyUrl(){
+					wx.setClipboardData({
+						data:'https://gitee.com/Kadia/Inside-and-outside-the-box'
+					});
 				}
 			}
 		}
@@ -87,18 +99,30 @@
 	   90% { transform: rotate(-10deg); }
 	   100% { transform: rotate(0deg); }
 	}
+	.mainWindow{
+		margin: 25rpx;
+	}
+	.title{
+		text-align: center;
+		font-size: 70rpx;
+	}
+	.h1{
+		font-size: 50rpx;
+		margin-top: 80rpx;
+	}
 	.logo{
-		height: 480upx;
-		width: 480upx;
-		margin-left: 130upx;
-		margin-top: 130upx;
+		height: 200upx;
+		width: 200upx;
+		margin-left: 250upx;
+		margin-top: 80upx;
+		margin-bottom: 50rpx;
 	}
 	.logoShaking{
-		height: 480upx;
-		width: 480upx;
-		margin-left: 130upx;
-		margin-top: 130upx;
+		height: 200upx;
+		width: 200upx;
+		margin-left: 250upx;
+		margin-top: 80upx;
+		margin-bottom: 50rpx;
 		animation: shaking 0.3s linear infinite;
-		
 	}
 </style>
