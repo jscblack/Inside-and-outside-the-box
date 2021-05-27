@@ -1,6 +1,6 @@
 <template>
 	<view class="main">
-		<rich-text :nodes="html"></rich-text>
+		<rich-text :nodes="html" style="line-height:65upx"></rich-text>
 		<view class="safeView"></view>
 	</view>
 </template>
