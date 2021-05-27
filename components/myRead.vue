@@ -2,27 +2,29 @@
 	<view :class="mainClass">
 		
 		<view class="cover" @click="closeRead"></view>
-		<view v-if="boxClass=='box'" class="readTot">
+		<view v-show="boxClass=='box'" class="readTot">
 			<image  class="myReadBkTop"
 				src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/newbktop.png">
 			</image>
 			<view  class="read">
-				<van-action-sheet :show="showReport" :actions="reportList" cancel-text="点错啦" close-on-click-overlay
-					@cancel="onCancelReport" @select="onSelect" />
-				<view v-show="context!=''" class="author">
-					<label @click="toReport">举报</label>
-					<view class="authorInfo">
-						<image class="favicon" :src="authorInfo.favicon" mode="aspectFill" /><label class="nickName"
-							v-text="authorInfo.nickName"></label>
+				<view v-show="content!=null">
+					<van-action-sheet :show="showReport" :actions="reportList" cancel-text="点错啦" close-on-click-overlay
+						@cancel="onCancelReport" @select="onSelect" />
+					<view class="author">
+						<label @click="toReport">举报</label>
+						<view class="authorInfo">
+							<image class="favicon" :src="authorInfo.favicon" mode="aspectFill" /><label class="nickName"
+								v-text="authorInfo.nickName"></label>
+						</view>
+						<van-icon style="text-align: right;" v-show="context!=''" :name="collectionName" size="30"
+							@click="onClickCollection" />
 					</view>
-					<van-icon style="text-align: right;" v-show="context!=''" :name="collectionName" size="30"
-						@click="onClickCollection" />
-				</view>
-				<p style="text-align: center; font-weight: 500;">{{time}}</p>
-				<p style="margin-top: 20upx;" v-text="context"></p>
-				<view style="text-align: left;">
-					<image :wx:for="image" wx:key="key" wx:for-item="item" :class="imageClass" :src="item"
-						mode="aspectFill" @click="onClickIamge(item+'')" />
+					<p style="text-align: center; font-weight: 500;">{{time}}</p>
+					<p style="margin-top: 20upx;" v-text="context"></p>
+					<view style="text-align: left;">
+						<image :wx:for="image" wx:key="key" wx:for-item="item" :class="imageClass" :src="item"
+							mode="aspectFill" @click="onClickIamge(item+'')" />
+					</view>
 				</view>
 			</view>
 		</view>
@@ -111,7 +113,7 @@
 				
 				if (that['content'] == null) {
 					uni.showToast({
-						title: '好像是一张空纸条',
+						title: '已经没有纸条啦，放下手机去看看更大的世界吧',
 						icon: 'none',
 						duration: 1200
 					});

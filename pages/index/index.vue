@@ -48,14 +48,15 @@
 				showNewUser: false,
 				isOldUser: false,
 				content: [],
-				showTrans: false
+				showTrans: false,
+				stopUpdate:false
 			}
 		},
 		onLoad() {
 			const that = this;
 			//获取消息
 			setInterval(function() {
-				if (that['content'].length <1)
+				if (that['content'].length <2)
 					that.$options.methods.updateContent(that);
 			}, 500);
 			// 判断是不是老用户
@@ -149,6 +150,7 @@
 			onClickBox() {
 				console.log("onClickBox")
 				const that = this;
+				that.stopUpdate==false;
 				if (that['boxClass'] != 'box')
 					return;
 				that['boxClass'] = 'boxShaking';
@@ -169,9 +171,12 @@
 					_that = this;
 				if (_that['content'].length > 0)
 					_that['content'].shift();
+				_that.stopUpdate=false;
 			},
 			// 获取新消息到content数组
 			updateContent(that) {
+				if(that.stopUpdate==true)
+					return ;
 				wx.cloud.callFunction({
 					name: 'pull_mininotes',
 					data: {},
@@ -184,10 +189,12 @@
 								}
 							}
 							that['content'].push(res.result);
-						}
+						}else if(res.result.errCode == 14602)
+							that.stopUpdate=true;
 					},
 					fail: function(err) {
 						console.log('updateContent fail', err);
+						that.stopUpdate=true;
 					}
 				});
 			},
