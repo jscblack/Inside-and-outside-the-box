@@ -41,12 +41,6 @@
 		onLoad() {
 			wx.showNavigationBarLoading()
 			const that=this;
-			//时间转化
-			function tansf(utc_datetime) {
-				const time = new Date(utc_datetime);
-				return time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate() + ' ' + time.getHours() +
-					':' + time.getMinutes() + ':' + time.getSeconds();
-			}
 			wx.cloud.callFunction({
 				name:'pull_self',
 				data: {},
@@ -58,7 +52,7 @@
 							that.hasNote=true;
 						for(const index in res.result.data)
 						{
-							res.result.data[index].cre_time=tansf(res.result.data[index].cre_time);
+							res.result.data[index].cre_time=that.tansf(res.result.data[index].cre_time);
 							const tmpObj={
 								content:res.result.data[index],
 								key:res.result.data[index]._id

@@ -105,12 +105,6 @@
 			},
 			//更新content
 			updateContent(that) {
-				function tansf(utc_datetime) {
-					const time = new Date(utc_datetime);
-					return time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate() + ' ' + time.getHours() +
-						':' + time.getMinutes() + ':' + time.getSeconds();
-				}
-				
 				if (that['content'] == null) {
 					uni.showToast({
 						title: '已经没有纸条啦，放下手机去看看更大的世界吧',
@@ -139,7 +133,7 @@
 				const miniTime = Date.parse(that['content'].data.cre_time);
 				const nowTime = new Date().getTime();
 				if (nowTime - miniTime >= 24 * 60 * 60 * 1000)
-					that['time'] = tansf(that['content'].data.cre_time);
+					that['time'] = that.tansf(that['content'].data.cre_time);
 				else if (nowTime - miniTime >= 60 * 60 * 1000)
 					that['time'] = parseInt((nowTime - miniTime) / 3600000) + '小时前';
 				else if (nowTime - miniTime >= 60 * 1000)

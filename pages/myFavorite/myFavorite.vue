@@ -65,12 +65,6 @@
 			this['showTrans'] = true;
 			wx.showNavigationBarLoading()
 			const that = this;
-			//时间转化
-			function tansf(utc_datetime) {
-				const time = new Date(utc_datetime);
-				return time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate() + ' ' + time.getHours() +
-					':' + time.getMinutes() + ':' + time.getSeconds();
-			}
 			wx.cloud.callFunction({
 				name: 'pull_fav',
 				data: {},
@@ -78,7 +72,7 @@
 					that['data'] = res.result.data;
 					that.hasFav=that['data'].length>=1?true:false;
 					for (const index in that['data'])
-						that['data'][index].det.cre_time = tansf(that['data'][index].det.cre_time);
+						that['data'][index].det.cre_time = that.tansf(that['data'][index].det.cre_time);
 					wx.hideNavigationBarLoading()
 					that['loading'] = false;
 					setTimeout(() => {
