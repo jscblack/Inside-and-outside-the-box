@@ -1,6 +1,4 @@
 <template>
-
-
 	<view>
 		<van-transition :show="loading==true&&showTrans==true" name="fade">
 			<view v-if="loading==true">
@@ -14,7 +12,6 @@
 				<view class="safeView"></view>
 			</view>
 			<view v-if="loading==false&&hasFav==false">
-				
 				<image src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/box.png"  mode="aspectFill" style="height: 480upx;width: 480upx;margin-left: 130upx;margin-top: 130upx;"></image>
 				<view class="noFav" style="margin-top: 200rpx;">
 					糟糕，你怎么一条收藏的小纸条都没有呢？

@@ -4,7 +4,6 @@
 			<my-welcome></my-welcome>
 		</view>
 		<my-new-user v-if="showNewUser" @onClickButton="getUser"></my-new-user>
-		<!-- <view v-if="showMain" id="mainView"> -->
 		<van-transition :show="showMain==true" name="fade" duration=1000>
 			<my-tabbar now=0 :able="boxClass=='box'"></my-tabbar>
 			<van-transition :show="showMain==true&&showTrans==true" name="fade">
@@ -21,7 +20,6 @@
 			</van-transition>
 
 		</van-transition>
-		<!-- 				</view> -->
 	</view>
 </template>
 
@@ -49,14 +47,14 @@
 				isOldUser: false,
 				content: [],
 				showTrans: false,
-				stopUpdate:false
+				stopUpdate: false
 			}
 		},
 		onLoad() {
 			const that = this;
 			//获取消息
 			setInterval(function() {
-				if (that['content'].length <2)
+				if (that['content'].length < 2)
 					that.$options.methods.updateContent(that);
 			}, 500);
 			// 判断是不是老用户
@@ -150,7 +148,7 @@
 			onClickBox() {
 				console.log("onClickBox")
 				const that = this;
-				that.stopUpdate==false;
+				that.stopUpdate == false;
 				if (that['boxClass'] != 'box')
 					return;
 				that['boxClass'] = 'boxShaking';
@@ -171,12 +169,12 @@
 					_that = this;
 				if (_that['content'].length > 0)
 					_that['content'].shift();
-				_that.stopUpdate=false;
+				_that.stopUpdate = false;
 			},
 			// 获取新消息到content数组
 			updateContent(that) {
-				if(that.stopUpdate==true)
-					return ;
+				if (that.stopUpdate == true)
+					return;
 				wx.cloud.callFunction({
 					name: 'pull_mininotes',
 					data: {},
@@ -189,12 +187,12 @@
 								}
 							}
 							that['content'].push(res.result);
-						}else if(res.result.errCode == 14602)
-							that.stopUpdate=true;
+						} else if (res.result.errCode == 14602)
+							that.stopUpdate = true;
 					},
 					fail: function(err) {
 						console.log('updateContent fail', err);
-						that.stopUpdate=true;
+						that.stopUpdate = true;
 					}
 				});
 			},
