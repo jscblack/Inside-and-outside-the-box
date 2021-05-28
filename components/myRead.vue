@@ -7,6 +7,9 @@
 				src="https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/newbktop.png">
 			</image>
 			<view  class="read">
+				<view v-show="content==null">
+					<p style="margin-top: 20upx;" v-text="context"></p>
+				</view>
 				<view v-show="content!=null">
 					<van-action-sheet :show="showReport" :actions="reportList" cancel-text="点错啦" close-on-click-overlay
 						@cancel="onCancelReport" @select="onSelect" />
@@ -106,12 +109,7 @@
 			//更新content
 			updateContent(that) {
 				if (that['content'] == null) {
-					uni.showToast({
-						title: '已经没有纸条啦，放下手机去看看更大的世界吧',
-						icon: 'none',
-						duration: 1200
-					});
-					that['context'] = '';
+					that['context'] = '已经没有更新的纸条啦，放下手机去看看更大的世界吧！';
 					that['image'] = [];
 					return;
 				}
