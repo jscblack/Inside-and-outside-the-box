@@ -25,8 +25,8 @@
 			//提交反馈
 			onClickSubmit() {
 				const that = this;
-				console.log(that['email']);
-				console.log(that['context']);
+				//console.log(that['email']);
+				//console.log(that['context']);
 				if (that['inputClass'] == 'errEmail') {
 					uni.showToast({
 						title: '邮箱格式不符合要求哦',
@@ -49,7 +49,7 @@
 						feedBack: that.context,
 					},
 					success: function(res) {
-						console.log(res);
+						//console.log(res);
 						wx.setClipboardData({
 							data: res.result.data._id,
 							success() {

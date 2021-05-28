@@ -47,7 +47,7 @@
 				success:function(res){
 					if(res.result.errCode==13600||res.result.errCode==13601)
 					{
-						console.log('pull_self ok',res);
+						//console.log('pull_self ok',res);
 						if(res.result.hasOwnProperty('data'))
 							that.hasNote=true;
 						for(const index in res.result.data)
@@ -79,10 +79,10 @@
 						mininote_id:that['data'][index].content._id,
 					},
 					success:function(res){
-						console.log('delete_content success',res);
+						//console.log('delete_content success',res);
 					},
 					fail:function(err){
-						console.log('delete_content fail',err);
+						//console.log('delete_content fail',err);
 					}
 				});
 				that[`data`].splice(index, 1);

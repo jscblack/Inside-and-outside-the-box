@@ -18,7 +18,16 @@
 						@onClickBox="onClickReadBox"></my-read>
 				</van-transition>
 			</van-transition>
-
+			<van-popup
+			  :show="showPop"
+			  closeable
+			  round
+			  close-icon="close"
+			  close-icon-position="top-right"
+			  position="bottom"
+			  custom-style="height: 35%"
+			  @close="onPopClose"
+			><view style="margin-top: 40upx;margin-left: 20upx;margin-right:20upx;font-size: 35upx;">欢迎使用箱里箱外</br>您可以点击中间的惊喜箱子或是摇晃手机来抽取其他用户的公开小纸条。请注意，任何一张小纸条只会出现一次，如果遇到共鸣的那一张请不要吝啬于收藏！</br>您可以通过点击笔来写小纸条，来与其他人分享快乐，共诉烦恼。</view></van-popup>
 		</van-transition>
 	</view>
 </template>
@@ -47,7 +56,8 @@
 				isOldUser: false,
 				content: [],
 				showTrans: false,
-				stopUpdate: false
+				stopUpdate: false,
+				showPop:false
 			}
 		},
 		onLoad() {
@@ -77,6 +87,11 @@
 						that['showNewUser'] = true;
 				}, 2000);
 			}, 3000);
+			setTimeout(function() {
+				if(!that['isOldUser']){
+					that['showPop']=true;
+				}
+			}, 5000);
 		},
 		onShow() {
 			if (Vue.prototype.$imgHide.status == true) {
@@ -86,10 +101,10 @@
 			this['showTrans'] = true;
 			const that = this;
 			wx.onAccelerometerChange(function(e) {
-				// console.log(e.x)
-				// console.log(e.y)
-				// console.log(e.z)
-				if (e.x > 0.8 || e.y > 0.8) {
+				// //console.log(e.x)
+				// //console.log(e.y)
+				// //console.log(e.z)
+				if ((e.x > 0.8 || e.y > 0.8)&&that['showPop']==false) {
 					if (that['showRead'] == false) {
 						that.onClickBox();
 					} else {
@@ -102,18 +117,9 @@
 		onHide() {
 			wx.offAccelerometerChange()
 			if (Vue.prototype.$imgHide.status == true) {
-				console.log('from imgHide')
 				return;
 			}
 			this['showTrans'] = false;
-
-			// var page = getCurrentPages().pop();
-			// console.log(page.$page.fullPath);
-			// page.data.showTrans=false;
-			// page.setData({
-			// 	showTrans:false
-			// })
-			console.log('index' + this['showTrans'])
 		},
 		methods: {
 			//用户信息
@@ -146,7 +152,6 @@
 			},
 			//摇箱子
 			onClickBox() {
-				console.log("onClickBox")
 				const that = this;
 				that.stopUpdate == false;
 				if (that['boxClass'] != 'box')
@@ -161,9 +166,14 @@
 					that['boxClass'] = 'box';
 				}, 1200);
 			},
+			onPopClose() {
+				console.log("onPopClose");
+				const that = this;
+				that['showPop'] = false;
+				console.log(that['showPop']);
+			},
 			//点击read的箱子
 			onClickReadBox(that) {
-				console.log("onClickReadBox")
 				let _that = that;
 				if (typeof(that) == 'undefined')
 					_that = this;
@@ -179,7 +189,7 @@
 					name: 'pull_mininotes',
 					data: {},
 					success: function(res) {
-						console.log('updateContent success', res);
+						//console.log('updateContent success', res);
 						if (res.result.errCode == 14600) {
 							for (let tmpContent of that['content']) {
 								if (tmpContent.data._id == res.result.data._id) {
@@ -191,7 +201,7 @@
 							that.stopUpdate = true;
 					},
 					fail: function(err) {
-						console.log('updateContent fail', err);
+						//console.log('updateContent fail', err);
 						that.stopUpdate = true;
 					}
 				});

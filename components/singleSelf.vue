@@ -86,10 +86,10 @@
 					note_id:that['info']._id,
 				},
 				success:function(res){
-					console.log('alter_note success',res);
+					// //console.log('alter_note success',res);
 					if(res.result.errCode==48002){
 						uni.showToast({
-							title: "该纸条被人多次举报，系统已经自动将其锁定，您可以提交反馈，人工二次复核",
+							title: "该纸条被多次举报，系统已经自动将其锁定，您可以提交反馈，人工二次复核",
 							icon: "none",
 							duration: 2000,
 						});
@@ -104,7 +104,7 @@
 					}
 				},
 				fail:function(err){
-					console.log('alter_note fail',err);
+					// //console.log('alter_note fail',err);
 				}
 			});
 			//...

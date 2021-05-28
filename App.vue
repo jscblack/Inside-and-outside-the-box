@@ -6,7 +6,7 @@
 			}
 		},
 		onLaunch: function() {
-			console.log('App Launch');
+			//console.log('App Launch');
 			let envId='meet-the-world-2g7kshiy287c49fe';
 			wx.cloud.init({
 			  env: envId,
@@ -15,10 +15,10 @@
 			//Vue.prototype.db=wx.cloud.database({env:envId});
 		},
 		onShow: function() {
-			console.log('App Show')
+			//console.log('App Show')
 		},
 		onHide: function() {
-			console.log('App Hide')
+			//console.log('App Hide')
 		}
 	}
 </script>

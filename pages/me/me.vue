@@ -64,11 +64,11 @@
 
 			wx.showNavigationBarLoading();
 			let that = this;
-			console.log("loading me")
+			//console.log("loading me")
 			wx.cloud.callFunction({
 				name: 'get_user',
 				success: function(res) {
-					console.log(res);
+					//console.log(res);
 					that.avatarUrl = res.result.data._favicon;
 					that.nickName = res.result.data._nickname;
 					wx.hideNavigationBarLoading()
@@ -81,7 +81,7 @@
 			});
 		},
 		onShow() {
-			//console.log('imgHide '+this.imgHide);
+			////console.log('imgHide '+this.imgHide);
 			const that = this;
 			that['showTrans'] = true;
 			if(that.flush){
@@ -90,7 +90,7 @@
 				wx.cloud.callFunction({
 					name: 'get_user',
 					success: function(res) {
-						console.log(res);
+						//console.log(res);
 						that.avatarUrl = res.result.data._favicon;
 						that.nickName = res.result.data._nickname;
 						wx.hideNavigationBarLoading()
@@ -107,12 +107,12 @@
 			this['showTrans'] = false;
 			
 			// var page = getCurrentPages().pop();
-			// console.log(page.$page.fullPath);
+			// //console.log(page.$page.fullPath);
 			// page.data.showTrans=false;
 			// page.setData({
 			// 	showTrans:false
 			// })
-			console.log('me'+this['showTrans'])
+			//console.log('me'+this['showTrans'])
 		},
 		methods: {
 			onchlickSetting(){

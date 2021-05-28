@@ -43,13 +43,13 @@
 				return ;
 			
 			var page = getCurrentPages().pop();
-			console.log(page.$page.fullPath);
-			console.log(page.data.showTrans)
+			//console.log(page.$page.fullPath);
+			//console.log(page.data.showTrans)
 			page.data.showTrans=false;
 			page.setData({
 				showTrans:false
 			})
-			console.log(page.data.showTrans)
+			//console.log(page.data.showTrans)
 			
 			setTimeout(()=>{
 				uni.switchTab({
@@ -62,13 +62,13 @@
 				return ;
 				
 			var page = getCurrentPages().pop();
-			console.log(page.$page.fullPath);
-			console.log(page.data.showTrans)
+			//console.log(page.$page.fullPath);
+			//console.log(page.data.showTrans)
 			page.data.showTrans=false;
 			page.setData({
 				showTrans:false
 			})
-			console.log(page.data.showTrans)
+			//console.log(page.data.showTrans)
 			setTimeout(()=>{
 				uni.switchTab({
 					url:'/pages/myFavorite/myFavorite'
@@ -85,13 +85,13 @@
 				return ;
 				
 			var page = getCurrentPages().pop();
-			console.log(page.$page.fullPath);
-			console.log(page.data.showTrans)
+			//console.log(page.$page.fullPath);
+			//console.log(page.data.showTrans)
 			page.data.showTrans=false;
 			page.setData({
 				showTrans:false
 			})
-			console.log(page.data.showTrans)
+			//console.log(page.data.showTrans)
 			setTimeout(()=>{
 				uni.switchTab({
 					url:'/pages/me/me'

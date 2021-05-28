@@ -53,9 +53,9 @@
 			}
 		},
 		onShow() {
-			//console.log(this['showTrans'])
+			////console.log(this['showTrans'])
 			if(Vue.prototype.$imgHide.status==true){
-				console.log('from imgHide')
+				//console.log('from imgHide')
 				Vue.prototype.$imgHide.status=false;
 				return;
 			}
@@ -87,20 +87,20 @@
 			this.curpos = ev.scrollTop
 		},
 		onHide() {
-			//console.log('fuck'+Vue.prototype.$imgHide.status)
+			////console.log('fuck'+Vue.prototype.$imgHide.status)
 			if(Vue.prototype.$imgHide.status==true){
-				console.log('from imgHide')
+				//console.log('from imgHide')
 				return;
 			}
 			this['showTrans'] = false;
 			
 			// var page = getCurrentPages().pop();
-			// console.log(page.$page.fullPath);
+			// //console.log(page.$page.fullPath);
 			// page.data.showTrans=false;
 			// page.setData({
 			// 	showTrans:false
 			// })
-			console.log('fav'+this['showTrans'])
+			//console.log('fav'+this['showTrans'])
 		},
 		methods: {
 			//删除收藏
@@ -114,10 +114,10 @@
 						oper: 2
 					},
 					success: function(res) {
-						console.log('alter_fav success', res);
+						//console.log('alter_fav success', res);
 					},
 					fail: function(err) {
-						console.log('alter_fav fail', err);
+						//console.log('alter_fav fail', err);
 					}
 				});
 				that[`data`].splice(index, 1);

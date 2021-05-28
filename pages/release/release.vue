@@ -96,11 +96,6 @@
               return;
             }
             uni.navigateBack();
-            uni.showToast({
-              title: "Okay",
-              icon: "none",
-              duration: 1200,
-            });
           },
           fail: function (err) {
             that["submitText"] = "就写这些吧";
@@ -115,7 +110,7 @@
       //读取前准备
       beforeRead(event) {
         const that = this;
-        console.log(event);
+        //console.log(event);
       },
       //读取到了临时地址并上传到数据库
       afterRead(event) {
@@ -149,12 +144,12 @@
                   },
                   success: function (ret) {
                     //上传并转码完成
-                    console.log(ret);
+                    //console.log(ret);
                     that["image"][index].fileID = ret.result.data.fileID;
                     that["image"][index].url = ret.result.data.tempFileURL;
-                    console.log(that["image"][index].thumb);
+                    //console.log(that["image"][index].thumb);
                     that["image"][index].thumb = ret.result.data.tempFileURL;
-                    console.log(that["image"][index].thumb);
+                    //console.log(that["image"][index].thumb);
                     that["image"][index].isImage = true;
                     wx.cloud.callFunction({
                       name: "update_record",
@@ -184,7 +179,7 @@
                   filePath: res.tempFilePath,
                   success: function (ret) {
                     if (ret.size < 1045000) {
-                      console.log("run check");
+                      //console.log("run check");
                       wx.cloud.uploadFile({
                         cloudPath: "tmp/" + that.$options.methods.getRandomFileName(that["image"][index].url),
                         filePath: compressPath,
@@ -227,7 +222,7 @@
                         },
                       });
                     } else {
-                      console.log("no run check");
+                      //console.log("no run check");
                       wx.cloud.uploadFile({
                         cloudPath: "noteImgs/" + that.$options.methods.getRandomFileName(that["image"][index].url),
                         filePath: that["image"][index].url,
@@ -251,7 +246,7 @@
               },
             });
           } else {
-            console.log("no run check");
+            //console.log("no run check");
             wx.cloud.uploadFile({
               cloudPath: "noteImgs/" + that.$options.methods.getRandomFileName(that["image"][index].url),
               filePath: that["image"][index].url,

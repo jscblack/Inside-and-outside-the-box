@@ -120,7 +120,7 @@
 						note_id: that['content'].data._id,
 					},
 					success: function(res) {
-						console.log('chk_fav success', res);
+						//console.log('chk_fav success', res);
 						if (res.result.errCode == 39000)
 							that['collectionName'] = 'star';
 					}
@@ -154,10 +154,10 @@
 						mininote_id: that['content'].data._id
 					},
 					success: function(res) {
-						console.log('update_viewed success', res);
+						////console.log('update_viewed success', res);
 					},
 					fail: function(err) {
-						console.log('update_viewed fail', err);
+						////console.log('update_viewed fail', err);
 					}
 				});
 			},
@@ -180,10 +180,10 @@
 						oper: that['collectionName'] == 'star-o' ? 1 : 2
 					},
 					success: function(res) {
-						console.log('alter_fav success', res);
+						//console.log('alter_fav success', res);
 					},
 					fail: function(err) {
-						console.log('alter_fav fail', err);
+						//console.log('alter_fav fail', err);
 					}
 				});
 				if (that['collectionName'] == 'star-o') {
@@ -216,8 +216,8 @@
 				//发送后端请求
 				const id=that['content'].data._id;
 				const type=word.detail.name;
-				console.log(id);
-				console.log(type);
+				//console.log(id);
+				//console.log(type);
 				wx.cloud.callFunction({
 					name: "reportAbuse",
 					data: {
