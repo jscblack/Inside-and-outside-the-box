@@ -8,8 +8,8 @@
 				</view>
 				<van-icon name="delete" size="30" @click="onClickCollection"/>
 			</view>
-			<p class="context" v-text="info.note_words"></p>
-			<view style="text-align: left;">
+			<p class="context" v-text="info.note_words" style="white-space: pre-wrap;"></p>
+			<view style="text-align: left;margin-top: 20upx;">
 				<image :class="imageClass" :wx:for="info.note_pic" wx:key="key" wx:for-item="item" :src="item" mode="aspectFill" @click="onClickIamge(item+'')" />
 			</view>
 			<p style="margin-top: 1rem; text-align: left;">被收藏{{info.mininote_favored}}次</p>
@@ -56,7 +56,6 @@
 		//浏览图片
 		onClickIamge(now){
 			const that=this;
-			Vue.prototype.$imgHide.status=true;
 			wx.previewImage({
 			  current: now,
 			  urls: that['info'].note_pic
@@ -119,9 +118,10 @@
 	.mainWindow{
 		margin: 20upx;
 		padding: 30upx;
-		background-color: #DCDEE0;
+		background-image: url(https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/static/image/myReadBk.png);
 		border-radius: 20upx;
 		text-align: center;
+		border: 2rpx solid #d8d8d838;
 	}
 	.author{
 		width: 100%;
@@ -146,6 +146,7 @@
 	.context{
 		margin-top: 25upx;
 		width: 100%;
+		font-size: 36upx;
 		text-align: left;
 		word-wrap: break-word;
 		word-break: break-all;
@@ -153,16 +154,16 @@
 	.oneImage{
 		width: 630upx;
 		height: 630upx;
-		margin: 5upx;
+		margin: 8upx;
 	}
 	.twoImage{
-		width: 310upx;
-		height: 310upx;
-		margin: 5upx;
+		width: 307upx;
+		height: 307upx;
+		margin: 8upx;
 	}
 	.mulImage{
-		width: 208upx;
-		height: 208upx;
-		margin: 5upx;
+		width: 203upx;
+		height: 203upx;
+		margin: 6upx;
 	}
 </style>

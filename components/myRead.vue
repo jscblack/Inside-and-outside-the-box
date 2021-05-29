@@ -8,7 +8,7 @@
 			</image>
 			<view  class="read">
 				<view v-show="content==null">
-					<p style="margin-top: 20upx;" v-text="context"></p>
+					<p style="margin-top: 20upx; font-size: 36upx;" v-text="context"></p>
 				</view>
 				<view v-show="content!=null">
 					<van-action-sheet :show="showReport" :actions="reportList" cancel-text="点错啦" close-on-click-overlay
@@ -23,8 +23,8 @@
 							@click="onClickCollection" />
 					</view>
 					<p style="text-align: center; font-weight: 500;">{{time}}</p>
-					<p style="margin-top: 20upx;" v-text="context"></p>
-					<view style="text-align: left;">
+					<p style="margin-top: 20upx; font-size: 36upx;white-space: pre-wrap;" v-text="context"></p>
+					<view style="text-align: left;margin-top: 20upx;">
 						<image :wx:for="image" wx:key="key" wx:for-item="item" :class="imageClass" :src="item"
 							mode="aspectFill" @click="onClickIamge(item+'')" />
 					</view>

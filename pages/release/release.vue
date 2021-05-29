@@ -9,7 +9,7 @@
         @after-read="afterRead"
         @before-read="beforeRead"
         @delete="onDelete"
-        preview-size="100px"
+        preview-size="120px"
         max-count="9"
         upload-text="添加图片"
       />

@@ -127,8 +127,8 @@
 	.userNameField {
 		display: block;
 		font-size: 40rpx;
-		width: 200rpx;
-		text-align: center;
+		width: 400rpx;
+		text-align: left;
 	}
 
 	,
