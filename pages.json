@@ -37,12 +37,6 @@
 			}
 		},
 		{
-			"path": "pages/feedback/feedback",
-			"style": {
-				"navigationBarTitleText": "反馈"
-			}
-		},
-		{
 			"path": "pages/manual/manual",
 			"style": {
 				"navigationBarTitleText": "用户手册"

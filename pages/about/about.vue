@@ -14,10 +14,11 @@
 		<van-divider />
 		https://gitee.com/Kadia/Inside-and-outside-the-box
 		<br />
-		<button style="margin-top:5rpx" size="mini" plain=true @click="copyUrl">点击复制</button>
+		<button size="mini" plain=true @click="copyUrl" >点击复制</button>
 		<p class="h1">联系我们</p>
 		<van-divider />
-		请通过反馈联系我们<navigator style="color: #1989FA;" url="../feedback/feedback" >点击反馈</navigator>
+		如有任何意见或建议，请通过反馈联系我们</br>
+		<button open-type="feedback" plain="true" size="mini" >反馈</button>
 	</view>
 </template>
 
@@ -98,6 +99,9 @@
 	   80% { transform: rotate(0deg); }
 	   90% { transform: rotate(-10deg); }
 	   100% { transform: rotate(0deg); }
+	}
+	button{
+		margin-top: 10upx;
 	}
 	.mainWindow{
 		margin: 25rpx;

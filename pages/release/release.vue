@@ -126,9 +126,8 @@
           //压缩图片并鉴黄
           if (that.$options.methods.getFileType(that["image"][index].url) == "HEIC") {
             //直接调用接口上传到云端
-            //heic格式一般是直接拍的就不鉴黄了
             uni.showToast({
-              title: "正在转换HEIC格式的原图，这不会需要太久",
+              title: "正在上传并转换HEIC格式的原图，这不会需要太久",
               icon: "none",
               duration: 4000,
             });

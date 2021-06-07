@@ -189,7 +189,7 @@
 					name: 'pull_mininotes',
 					data: {},
 					success: function(res) {
-						//console.log('updateContent success', res);
+						console.log('pull success', res);
 						if (res.result.errCode == 14600) {
 							for (let tmpContent of that['content']) {
 								if (tmpContent.data._id == res.result.data._id) {

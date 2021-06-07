@@ -3,9 +3,9 @@
 		<van-cell-group>
 			<van-cell title="同步微信头像/昵称" size="large" is-link @click="updateUserInfo" />
 			<van-cell title="清除所有浏览记录" size="large" is-link @click="clearViewedRecord" />
-			<van-cell title="反馈" is-link url="/pages/feedback/feedback" size="large" />
 			<van-cell title="关于我们" is-link url="/pages/about/about" size="large" />
 		</van-cell-group>
+		
 	</view>
 </template>
 
