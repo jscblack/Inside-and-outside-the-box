@@ -1,0 +1,69 @@
+// 云函数入口文件
+const cloud = require('wx-server-sdk')
+
+cloud.init()
+
+// 云函数入口函数
+exports.main = async (event, context) => {
+  //从数据库随机获取一个非自己的公开小纸条
+  const wxContext = cloud.getWXContext()
+  const db = cloud.database()
+  const res = await db.collection('mininotes').where({
+    cre_user: db.command.not(db.command.eq(wxContext.OPENID)),
+    mininote_type: db.command.eq(0),
+  }).field({
+    _id: true
+  }).get() //所有这个非这个用户且开放的纸条
+
+  const vd = await db.collection('notes_viewed').where({
+    user: wxContext.OPENID,
+  }).field({
+    _id: false,
+    mininote_id: true
+  }).get() //所有这个用户看过的纸条
+
+  let res_set = new Set();
+  let vd_set = new Set();
+  res.data.forEach(element => {
+    res_set.add(element._id);
+  });
+  vd.data.forEach(element => {
+    vd_set.add(element.mininote_id);
+  });
+
+  let diff = [...res_set].filter(x => !vd_set.has(x));
+
+  if (diff.length == 0) {
+    return {
+      errCode: 14601,
+      errMsg: 'No available mininotes'
+    }
+  }
+
+  let ret = await db.collection('mininotes').where({
+    _id: diff[Math.floor(Math.random() * diff.length)]
+  }).get();
+  ret = ret.data[0];
+  if (ret.has_pic) {
+    const remote_pic = ret.note_pic;
+    const tmp_pic = await cloud.getTempFileURL({
+      fileList: remote_pic,
+    })
+    for (let index = 0; index < ret.note_pic.length; index++) {
+      ret.note_pic[index] = tmp_pic.fileList[index].tempFileURL
+    }
+  }
+
+  nmret = await db.collection('user_info').where({
+    _openid: ret.cre_user
+  }).get()
+
+  ret.cre_user = (nmret.data.length == 1) ? nmret.data[0]._nickname : "箱里箱外用户"
+  ret.cre_user_favicon = (nmret.data.length == 1) ? nmret.data[0]._favicon : "https://6d65-meet-the-world-2g7kshiy287c49fe-1305360411.tcb.qcloud.la/usr_favicon/default.jpg"
+
+  return {
+    errCode: 14600,
+    errMsg: 'pull_mininotes_OK',
+    data: ret
+  }
+}

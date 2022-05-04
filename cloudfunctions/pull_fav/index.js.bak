@@ -1,0 +1,92 @@
+// 云函数入口文件
+const cloud = require('wx-server-sdk')
+
+cloud.init()
+
+// 云函数入口函数
+exports.main = async (event, context) => {
+  const wxContext = cloud.getWXContext()
+  const db = cloud.database();
+  //得到用户收藏
+  try {
+    let ret = await db.collection('user_fav').where({
+      user: cloud.getWXContext().OPENID,
+    }).get();
+
+    await Promise.all(ret.data.map(async element => {
+      const res = await db.collection('mininotes').where({
+        _id: element.note,
+      }).get();
+      //console.log(res);
+      const remote_pic = res.data[0].note_pic;
+      const tmp_pic = await cloud.getTempFileURL({
+        fileList: remote_pic,
+      })
+      for (let index = 0; index < res.data[0].note_pic.length; index++) {
+        res.data[0].note_pic[index] = tmp_pic.fileList[index].tempFileURL
+      }
+      element.det = res.data[0];
+    }));
+    return {
+      errCode: 41000,
+      errMsg: 'pull_fav:ok',
+      data: ret.data,
+    }
+  } catch (err) {
+    return err
+  }
+
+}
+
+
+// 云函数入口文件
+const cloud = require('wx-server-sdk')
+
+cloud.init()
+
+// 云函数入口函数
+exports.main = async (event, context) => {
+  const wxContext = cloud.getWXContext()
+  const db = cloud.database();
+  //得到用户收藏
+  try {
+    let ret = await db.collection('user_fav')
+      .aggregate()
+      .match({
+        user: cloud.getWXContext().OPENID,
+      })
+      .project({
+        _id: 0,
+        note: 1,
+      })
+      .lookup({
+        from: 'mininotes',
+        localField: 'note',
+        foreignField: '_id',
+        as: 'det',
+      })
+      .end();
+    //console.log(ret);
+    await Promise.all(ret.list.map(async element => {
+      //console.log(element.det[0]);
+      const remote_pic = element.det[0].note_pic;
+      if (remote_pic.length >= 1) {
+        const tmp_pic = await cloud.getTempFileURL({
+          fileList: remote_pic,
+        })
+        for (let index = 0; index < element.det[0].note_pic.length; index++) {
+          element.det[0].note_pic[index] = tmp_pic.fileList[index].tempFileURL
+        }
+        element.det = element.det[0];
+      }
+    }));
+    return {
+      errCode: 41000,
+      errMsg: 'pull_fav:ok',
+      data: ret.list,
+    }
+  } catch (err) {
+    return err
+  }
+
+}
